@@ -21,3 +21,8 @@ Class diagram for Graph class:
 
 Diagrams can be found on [LucidChart](https://www.lucidchart.com/invitations/accept/923e3f12-93bf-4315-af38-f11a078edaf6)
 tur
+
+## Authors
+* Antonio Bares
+* Hashim Shah
+* Dmitry Sokolov
