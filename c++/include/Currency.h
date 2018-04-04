@@ -14,14 +14,14 @@ private:
 
 public:
     // Constructor
-    Currency(const std::string&);
+    Currency(const std::string&, const std::string&);
 
     // Getters
     std::string getName() const;
     std::string getSymbol() const;
 
     // Operator Overload
-    bool operator== (const Currency&)
+    bool operator== (const Currency&);
 };
 
 #endif

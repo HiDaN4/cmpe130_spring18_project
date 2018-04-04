@@ -16,7 +16,7 @@ private:
 
 public:
     // Constructor
-    CurrencyPair(const std::string&, const::string&, const double);
+    CurrencyPair(const std::string&, const std::string&, const double);
 
 
     // Getters

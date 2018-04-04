@@ -3,7 +3,10 @@
 // Author: Antonio G. Bares Jr.
 
 #include <string>
+#include <fstream>
+#include <iostream>
 #include <list>
+#include <sstream>
 
 #include "CurrencyPair.h"
 
