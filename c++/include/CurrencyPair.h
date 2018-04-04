@@ -20,6 +20,7 @@ public:
 
 
     // Getters
+    std::string getSymbol() const;
     std::string getFromSymbol() const;
     std::string getToSymbol() const;
     double getPrice() const;
