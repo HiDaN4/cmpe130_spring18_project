@@ -41,6 +41,10 @@ public:
     }
     T getValue(){return value;}
     forward_list<Node<T> > getListOfNodes(){return listOfNodes;}
+
+    bool operator==(const Vertices& rhs) {
+        return this->value == rhs.value;
+    }
 };
 
 template <class T>
@@ -50,8 +54,9 @@ private:
     vector < Vertices<T> > adjList;
     int count;
     using Graph<T>::totalNumberOfVertices;
+
 public:
-    explicit UndirectedListGraph(int numOfVertices) : Graph<T>(numOfVertices) { count=0;}
+    UndirectedListGraph() : Graph<T>(), count(0) { }
 
     virtual void addVertex(const T& value);
     virtual void removeVertex(const T& value);

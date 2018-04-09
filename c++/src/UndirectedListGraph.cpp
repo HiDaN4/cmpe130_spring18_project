@@ -7,6 +7,7 @@
 template <class T>
 void UndirectedListGraph<T>::addVertex(const T &value)
 {
+
         Vertices<T> vertex(value); // create a vertex of passed value
         adjList.push_back(vertex); // push the vertex onto the vector
 }
@@ -69,7 +70,7 @@ int UndirectedListGraph<T>::lookUpVertex(const T &value)
         }
     }
 
-    cout << __FUNCTION__ << ": Vertex not found";
+    cout << __FUNCTION__ << ": Vertex not found for " << value << "\n";
     return -1;
 }
 template <class T>

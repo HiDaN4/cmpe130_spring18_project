@@ -3,17 +3,15 @@
 ////
 
 #include "UndirectedMatrixGraph.h"
+#include <iomanip> // setprecision
+#include <sstream> // stringstream
 
 
 //constructor of undireceted graph using adjacency matrix
-//assigns a weight of 0 to each index to begin with
-
-
 template<class T>
-UndirectedMatrixGraph<T>::UndirectedMatrixGraph(unsigned int numOfVertices) : Graph<T>(numOfVertices) // constructor of default size = 10int totalNumOfVertices = 10
+UndirectedMatrixGraph<T>::UndirectedMatrixGraph() : Graph<T>()
 {
-//        adjMatrix(numOfVertices), vertexList(numOfVertices)
-    adjMatrix.resize(this->getNumberOfVertices(), vector<double>(this->getNumberOfVertices()));
+//    adjMatrix.resize(this->getNumberOfVertices(), vector<double>(this->getNumberOfVertices()));
 }
 
 //This function adds a vertices to our vertex List
@@ -29,25 +27,22 @@ void UndirectedMatrixGraph<T>::addVertex(const T& value)
     vertexList.push_back(vertex);
     cout << __FUNCTION__ << ": Added vertex "   << endl;
 
+    unsigned int prevCount = totalNumberOfVertices;
     totalNumberOfVertices++;
 
-    adjMatrix.push_back(vector<double >(totalNumberOfVertices));
+    // resize the vectors (as we add a new vertex, columns increase)
+    for (auto it = adjMatrix.begin(); it != adjMatrix.end(); ++it) {
+        while (it->size() < totalNumberOfVertices)
+            it->push_back(0);
+    }
 
-//
-//        //resize if we hit maximum graph adj matrix size
-//        if (currentCountOfVertices == this->getNumberOfVertices())
-//        {
-//            this->setNumberOfVertices(totalNumberOfVertices + 1);
-//            cout << "ehods" << this->getNumberOfVertices()<< endl << endl;
-//            //resize entire graph
-//            for (int i = 0; i < this->getNumberOfVertices() - 1; i ++ )
-//            {
-//                    adjMatrix[i].resize(this->getNumberOfVertices());
-//            }
-//
-//            adjMatrix.resize(this->getNumberOfVertices(), vector<double>(this->getNumberOfVertices()));
-//
-//        }
+    // create a new vertex vector
+    auto v = vector<double>();
+    for (int i = 0; i < totalNumberOfVertices; ++i) // initialize the vector to 0 with size: numberOfVertices
+        v.push_back(0);
+
+    adjMatrix.push_back(v);
+
 };
 
 //This function removes a vertices to our vertex List
@@ -151,23 +146,40 @@ int UndirectedMatrixGraph<T>::lookUpVertex(const T& value)
 template<class T>
 string UndirectedMatrixGraph<T>::toString()
 {
-    string str;
+    static const int baseSymbolLength = 3;
+    static const int spacing = 4;
+
+    string spaces = string(spacing, ' ');
+    string headerSpaces = string(spacing + 1, ' ');
+    string str(spacing + 3, ' ');
+
+    // row with headers
     for (auto it = vertexList.begin(); it != vertexList.end(); ++it) {
-        str += (*it).getValue() + " ";
+        str += (*it).getValue() + headerSpaces;
     }
 
-
-    // remove the last whitespace
+    // remove the last whitespaces
     if (str.length() > 0)
-        str = str.substr(0, str.length() - 1);
+        str = str.substr(0, str.length() - spacing);
 
     str += "\n";
-//    for (auto it = adjMatrix.cbegin(); it != adjMatrix.cend(); ++it) {
-//        for (auto column = it->cbegin(); column != it->cend(); ++column) {
-//            str += vertexList[i].getValue();
-//            str += "-" + vertexList[j].getValue() + "\n";
-//        }
-//    }
+
+    stringstream buffer;
+    int i = 0; // counter of vertex list
+    string line; // hold data for each line
+
+    for (auto it = adjMatrix.begin(); it != adjMatrix.end(); ++it) {
+        line += vertexList.at(i++).getValue(); // get the symbol
+        line += string(spacing - (line.length() - baseSymbolLength), ' '); // calculate the spacing based on the symbol length
+        for (auto column = it->begin(); column != it->end(); ++column) {
+            buffer.str(string());
+            buffer << fixed << setprecision(2) << *column << spaces; // get value of double with precision of 2
+            line += buffer.str();
+        }
+        str += line + "\n\n";
+        line = "";
+    }
+
 
     return str;
 }

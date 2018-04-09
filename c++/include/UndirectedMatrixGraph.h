@@ -19,9 +19,7 @@ private:
     using Graph<T>::totalNumberOfVertices;
 
 public:
-
-    explicit UndirectedMatrixGraph(unsigned int numOfVertices);
-
+    UndirectedMatrixGraph();
     //This function adds a vertices to our vertex List
     // @param: Vertex * addThisVertex
 
