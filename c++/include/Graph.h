@@ -76,26 +76,21 @@ template <class T>
 class Graph
 {
 protected:
-    int totalNumberOfVertices; //number of vertices
+    unsigned int totalNumberOfVertices; //number of vertices
 
 private:
-    virtual int lookUpVertex(const Vertex<T>& vertex) = 0;
+    virtual int lookUpVertex(const T& value) = 0;
 public:
 
     //pure virtual functions which are supposed to be inherited by child Classes
-    explicit Graph(int numOfVertices): totalNumberOfVertices(numOfVertices)
+    explicit Graph(unsigned int numOfVertices): totalNumberOfVertices(numOfVertices)
     {
     }
 
     //getter to return the number of nodes in graph
-    int getNumberOfVertices()
+    unsigned int getNumberOfVertices()
     {
         return totalNumberOfVertices;
-    }
-    // setter to set the number of nodes in graph
-    void setNumberOfVertices(int x)
-    {
-        totalNumberOfVertices = x;
     }
 
     //virtual functions which are inherited and implemented by child classes

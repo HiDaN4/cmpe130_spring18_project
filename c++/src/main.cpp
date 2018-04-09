@@ -15,6 +15,11 @@ int main()
 
 
     Graph<string> * graph1 = new UndirectedMatrixGraph<string>(11);
+
+    graph1->addVertex("V1");
+    graph1->addVertex("V2");
+    graph1->addVertex("V3");
+    std::cout << graph1->toString();
    // Graph<string> * graph2 = new UndirectedListGraph<string>(11);
 
 //    UndirectedListGraph<string> adjList(15);
