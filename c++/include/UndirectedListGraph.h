@@ -8,17 +8,31 @@
 #include <forward_list>
 
 template <class T>
+class Vertices;
+
+template <class T>
 class Node
 {
     double cost;
-    T value;
-    Node * next;
+    Vertices<T> * vertexPtr;
 public:
-    Node(T val, double c)
+    Node(Vertices<T> * ptr, double nodeCost)
     {
-        cost = c;
-        T value = val;
-        next = nullptr;
+        cost = nodeCost;
+        vertexPtr = ptr;
+    }
+};
+
+template <class T>
+class Vertices
+{
+private:
+    forward_list<Node<T> > listOfNodes;
+    T value;
+public:
+    Vertices(T val)
+    {
+        value = val;
     }
 };
 
@@ -26,33 +40,22 @@ template <class T>
 class UndirectedListGraph : public Graph<T>
 {
 private:
-    vector < forward_list<Node<T> > > adjList;
+    vector < Vertices<T> > adjList;
     int count;
+
 public:
-    explicit UndirectedListGraph(int numOfVertices) : Graph<T>(numOfVertices)
-    {
-        count = 0;
-    }
+    explicit UndirectedListGraph(int numOfVertices) : Graph<T>(numOfVertices), count(0) {}
 
-     void addVertex(T * value, double c)
-    {
-        Node<T> * node = new Node<T>(value, c);//create a new node
+    virtual void addVertex(const T& value);
+    virtual void removeVertex(const T& value);
 
+    virtual void addEdge(const T& fromValue, const T& toValue, double cost);
+    virtual void removeEdge(const T& fromValue, const T& toValue);
 
-        if (value != nullptr)//check
-        {
+    virtual string toString();    //rough display function which displays the edges between vertices.
+    virtual int lookUpVertex(const T &value);
 
-
-        }
-
-
-    }
-    void removeVertex(Vertex<T> * deleteThisVertex){}
-    void addEdge(Vertex<T> * fromVertex, Vertex<T> * toVertex, double cost){}
-    void removeEdge(Vertex<T> * fromVertex, Vertex<T> * toVertex){}
-    int lookUpVertex(Vertex<T> * v) {return 0;}
-    virtual string toString(){ return ""; }
 };
 
-
+#include "UndirectedListGraph.cpp"
 #endif //CMPE130PROJECT_UNDIRECTEDLISTGRAPH_H

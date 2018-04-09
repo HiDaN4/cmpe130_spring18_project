@@ -16,7 +16,6 @@ class Vertex
 private:
     int vertexID; // id of node
     T value;    // value the node contains
-
     static int vertexIDCounter;
 
 public:
@@ -79,7 +78,7 @@ protected:
     int totalNumberOfVertices; //number of vertices
 
 private:
-    virtual int lookUpVertex(const Vertex<T>& vertex) = 0;
+    virtual int lookUpVertex(const T &value) = 0;
 public:
 
     //pure virtual functions which are supposed to be inherited by child Classes
