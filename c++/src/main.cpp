@@ -14,11 +14,12 @@ int main()
     Vertex<string> *v4 = new Vertex<string>("v4");
 
 
-    Graph<string> * graph1 = new UndirectedMatrixGraph<string>(11);
+    Graph<string> * graph1 = new UndirectedMatrixGraph<string>();
 
-    graph1->addVertex("V1");
-    graph1->addVertex("V2");
-    graph1->addVertex("V3");
+    graph1->addVertex("BTC");
+    graph1->addVertex("XRP");
+    graph1->addVertex("BTCN");
+    graph1->addVertex("RR");
     std::cout << graph1->toString();
 
 //    UndirectedListGraph<string> adjList(15);

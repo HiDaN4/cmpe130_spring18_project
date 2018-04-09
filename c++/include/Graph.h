@@ -83,7 +83,7 @@ private:
 public:
 
     //pure virtual functions which are supposed to be inherited by child Classes
-    explicit Graph(unsigned int numOfVertices): totalNumberOfVertices(numOfVertices)
+    explicit Graph(): totalNumberOfVertices(0)
     {
     }
 

@@ -8,7 +8,7 @@ template <class T>
 void UndirectedListGraph<T>::addVertex(const T &value)
 {
     Vertices<T> vertex(value);
-    adjList.push_back(vertex);
+//    adjList.push_back(vertex);
     //adjList.push_back();
 
 }
