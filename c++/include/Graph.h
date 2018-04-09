@@ -6,6 +6,7 @@
 #define CMPE130PROJECT_GRAPH_H
 
 #include <iostream>
+#include <string>
 using namespace std;
 
 //Vertex class which defines a vertex which holds an ID and a Value (which is a template)
@@ -13,14 +14,16 @@ template <class T>
 class Vertex
 {
 private:
-    int vertexID; //id of node
+    int vertexID; // id of node
     T value;    // value the node contains
+
+    static int vertexIDCounter;
 
 public:
     //constructor for Vertex node
-    Vertex(int ID, T val)
+    explicit Vertex(T val)
     {
-        vertexID = ID;
+        vertexID = Vertex::vertexIDCounter++;
         value = val;
     }
 
@@ -36,52 +39,35 @@ public:
     }
 
     //operator overloads
-    bool operator<(Vertex &b)
+    bool operator<(const Vertex &b)
     {
-        if (this->value< b.value&& this->getID() < b.getID())
-        {
-                return true;
-        }
-        return false;
+        return this->value < b.value;
     }
 
-    bool operator<=(Vertex &b)
+    bool operator<=(const Vertex &b)
     {
-        if (this->value <= b.value&& this->getID() <= b.getID())
-        {
-            return true;
-        }
-        return false;
+        return this->value <= b.value;
     }
 
-    bool operator>( Vertex &b)
+    bool operator>(const Vertex &b)
     {
-        if (this->value > b.value&& this->getID() > b.getID())
-        {
-            return true;
-        }
-        return false;
+        return this->value > b.value;
     }
 
-    bool operator>=(Vertex &b)
+    bool operator>=(const Vertex &b)
     {
 
-        if (this->value >= b.value&& this->getID() >= b.getID())
-        {
-            return true;
-        }
-        return false;
+        return this->value >= b.value;
     }
 
-    bool operator==(Vertex<T> &b)
+    bool operator==(const Vertex<T> &b)
     {
-         if (this->value == b.value && this->getID() == b.getID())
-        {
-            return true;
-        }
-        return false;
+        return this->value == b.value;
     }
 };
+
+template <class T>
+int Vertex<T>::vertexIDCounter = 0;
 
 //Abstract graph class inherited by
 //1. UndirectedMatrixGraph
@@ -89,15 +75,16 @@ public:
 template <class T>
 class Graph
 {
-public:
-     int totalNumberOfVertices; //number of vertices
+protected:
+    int totalNumberOfVertices; //number of vertices
+
+private:
+    virtual int lookUpVertex(const Vertex<T>& vertex) = 0;
 public:
 
-    //TODO:Fix this constructor and its base constructor
     //pure virtual functions which are supposed to be inherited by child Classes
-    Graph(int numOfVertices): totalNumberOfVertices(numOfVertices)
+    explicit Graph(int numOfVertices): totalNumberOfVertices(numOfVertices)
     {
-        //totalNumberOfVertices = numOfVertices;//getNumberOfVertices();
     }
 
     //getter to return the number of nodes in graph
@@ -105,24 +92,22 @@ public:
     {
         return totalNumberOfVertices;
     }
-    //settter to set the number of nodes in graph
+    // setter to set the number of nodes in graph
     void setNumberOfVertices(int x)
     {
         totalNumberOfVertices = x;
     }
 
     //virtual functions which are inherited and implemented by child classes
-    virtual void addVertex(T* value) = 0;
-    virtual void removeVertex(Vertex<T> * deleteThisVertex)=0;
-    virtual int lookUpVertex(Vertex<T> * v) = 0;
+    virtual void addVertex(const T& value) = 0;
+    virtual void removeVertex(const T& value)=0;
 
-    //virtual void addEdge(Vertex<T> * fromVertex, Vertex<T> * toVertex) = 0;
-    virtual void addEdge(Vertex<T> * fromVertex, Vertex<T> * toVertex, double cost) = 0;
-    virtual void removeEdge(Vertex<T> * fromVertex, Vertex<T> * toVertex) = 0;
+    virtual void addEdge(const T& fromValue, const T& toValue, double cost) = 0;
+    virtual void removeEdge(const T& fromValue, const T& toValue) = 0;
 
 
     //rough display function which displays the edges between vertices.
-    virtual void display() = 0;
+    virtual string toString() = 0;
 
 };
 

@@ -29,7 +29,7 @@ private:
     forward_list<Node<T>> * adjList;
     int count;
 public:
-    UndirectedListGraph(int numOfVertices) : Graph<T>(numOfVertices)
+    explicit UndirectedListGraph(int numOfVertices) : Graph<T>(numOfVertices)
     {
         adjList = new forward_list<Node<T>>[numOfVertices];
         for (int i = 0; i < numOfVertices; i++)
@@ -46,8 +46,8 @@ public:
     void removeVertex(Vertex<T> * deleteThisVertex){}
     void addEdge(Vertex<T> * fromVertex, Vertex<T> * toVertex, double cost){}
     void removeEdge(Vertex<T> * fromVertex, Vertex<T> * toVertex){}
-    int lookUpVertex(Vertex<T> * v) {}
-    void display(){}
+    int lookUpVertex(Vertex<T> * v) {return 0;}
+    virtual string toString(){ return ""; }
 };
 
 
