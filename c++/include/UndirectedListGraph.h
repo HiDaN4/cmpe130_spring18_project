@@ -26,21 +26,25 @@ template <class T>
 class UndirectedListGraph : public Graph<T>
 {
 private:
-    forward_list<Node<T>> * adjList;
+    vector < forward_list<Node<T> > > adjList;
     int count;
 public:
     UndirectedListGraph(int numOfVertices) : Graph<T>(numOfVertices)
     {
-        adjList = new forward_list<Node<T>>[numOfVertices];
-        for (int i = 0; i < numOfVertices; i++)
-        {
-            adjList = new forward_list<Node<T>>[10];
-        }
         count = 0;
     }
-     void addVertex(Node<T> * Node)
+
+     void addVertex(T * value, double c)
     {
-        adjList->emplace_front(Node);
+        Node<T> * node = new Node<T>(value, c);//create a new node
+
+
+        if (value != nullptr)//check
+        {
+
+
+        }
+
 
     }
     void removeVertex(Vertex<T> * deleteThisVertex){}

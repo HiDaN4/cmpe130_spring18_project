@@ -14,7 +14,7 @@ int main()
     Vertex<string> *v4 = new Vertex<string>(4, "v4");
 
     Graph<string> * graph1 = new UndirectedMatrixGraph<string>(11);
-   // Graph<string> * graph2 = new UndirectedListGraph<string>(11);
+    Graph<string> * graph2 = new UndirectedListGraph<string>(11);
 
 
 //    UndirectedListGraph<string> adjList(15);
