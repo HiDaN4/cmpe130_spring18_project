@@ -21,6 +21,11 @@ public:
         cost = nodeCost;
         vertexPtr = ptr;
     }
+
+    bool operator==(const Node& rhs)
+    {
+        return this->vertexPtr->getValue() == rhs.vertexPtr->getValue();
+    }
 };
 
 template <class T>
@@ -34,6 +39,8 @@ public:
     {
         value = val;
     }
+    T getValue(){return value;}
+    forward_list<Node<T> > getListOfNodes(){return listOfNodes;}
 };
 
 template <class T>
@@ -42,9 +49,9 @@ class UndirectedListGraph : public Graph<T>
 private:
     vector < Vertices<T> > adjList;
     int count;
-
+    using Graph<T>::totalNumberOfVertices;
 public:
-    explicit UndirectedListGraph(int numOfVertices) : Graph<T>(numOfVertices), count(0) {}
+    explicit UndirectedListGraph(int numOfVertices) : Graph<T>(numOfVertices) { count=0;}
 
     virtual void addVertex(const T& value);
     virtual void removeVertex(const T& value);
