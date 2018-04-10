@@ -6,6 +6,7 @@
 #include <iomanip> // setprecision
 #include <sstream> // stringstream
 
+//TODO: Test and RemoveEdge
 
 //constructor of undireceted graph using adjacency matrix
 template<class T>
@@ -56,10 +57,18 @@ void UndirectedMatrixGraph<T>::removeVertex(const T& value)
 {
     int index = lookUpVertex(value);
 
+
     if (index != -1 && totalNumberOfVertices!=-1) // if index is valid
     {
-        vertexList.erase(vertexList.begin()+index); // remove vertex at that index
+        vertexList.erase(vertexList.begin() + index); // remove vertex at that index
         totalNumberOfVertices--;
+
+        //resize the matrix accordingly
+        adjMatrix.erase(adjMatrix.begin() + index);
+        for (auto iterator = adjMatrix.begin(); iterator != adjMatrix.end(); ++iterator)
+        {
+            iterator->erase(iterator->begin() + index);
+        }
 
         cout << __FUNCTION__ << ": Removed vertex at index " << index << endl;
     }
@@ -82,15 +91,9 @@ void UndirectedMatrixGraph<T>::addEdge(const T& fromValue, const T& toValue, dou
 
     if (fromIndex != -1 && toIndex != -1)
     {
-        //check to see if edge already exists between vertices
-        if (adjMatrix[fromIndex][toIndex] != 0)
-        {
-            cout << __FUNCTION__ << ": Edge already exists.. Nothing to do here" << endl;
-            return;
-        }
-
         //if they exist, then add it
-        adjMatrix[fromIndex][toIndex] = adjMatrix[toIndex][fromIndex] = cost; //add edge between vertices
+        adjMatrix[fromIndex][toIndex] = adjMatrix[toIndex][fromIndex] = cost; // add edge between vertices
+
     }
 }
 //This function removes an edge between two given vertices
@@ -115,7 +118,7 @@ void UndirectedMatrixGraph<T>::removeEdge(const T& fromValue, const T& toValue)
         }
 
         //if they exist, then remove it
-        adjMatrix[fromIndex][toIndex] = adjMatrix[toIndex][fromIndex] = 0; //add edge between vertices
+        adjMatrix[fromIndex][toIndex] = adjMatrix[toIndex][fromIndex] = 0.00; //add edge between vertices
     }
 }
 
