@@ -7,11 +7,10 @@
 template <class T>
 void UndirectedListGraph<T>::addVertex(const T &value)
 {
-
-        Vertices<T> vertex(value); // create a vertex of passed value
-        adjList.push_back(vertex); // push the vertex onto the vector
+    Vertices<T> vertex(value); // create a vertex of passed value
+    adjList.push_back(vertex); // push the vertex onto the vector
+    ++totalNumberOfVertices;
 }
-
 
 
 template <class T>
@@ -25,6 +24,7 @@ void UndirectedListGraph<T>::removeVertex(const T &value)
     }
 }
 
+
 template <class T>
 void UndirectedListGraph<T>::addEdge(const T &fromValue, const T &toValue, double cost)
 {
@@ -33,11 +33,8 @@ void UndirectedListGraph<T>::addEdge(const T &fromValue, const T &toValue, doubl
 
     if (fromValueIndex != -1 && toValueIndex != -1) // if both vertices are found
     {
-        Node<T> myNode(&adjList[toValueIndex], cost); //create a node pointing to vertex containing toValue
-
-        adjList[fromValueIndex].getListOfNodes().emplace_front(myNode); // add it to the linked list
-        adjList[toValueIndex].getListOfNodes().emplace_front(myNode); // add it to the linked list
-
+        adjList[fromValueIndex].insertNode( Node<T>(&adjList[toValueIndex], cost) );
+        adjList[toValueIndex].insertNode( Node<T>(&adjList[fromValueIndex], cost) );
     }
 }
 
@@ -49,11 +46,8 @@ void UndirectedListGraph<T>::removeEdge(const T &fromValue, const T &toValue)
 
     if (fromValueIndex != -1 && toValueIndex != -1) // if both vertices are found
     {
-        Node<T> myNode(&adjList[toValueIndex], 0);
-
-       adjList[fromValueIndex].getListOfNodes().remove(myNode);
-       adjList[toValueIndex].getListOfNodes().remove(myNode);
-
+       adjList[fromValueIndex].removeNode( Node<T>(&adjList[toValueIndex], 0) );
+       adjList[toValueIndex].removeNode(Node<T>(&adjList[fromValueIndex], 0));
     }
 
 }
@@ -73,8 +67,23 @@ int UndirectedListGraph<T>::lookUpVertex(const T &value)
     cout << __FUNCTION__ << ": Vertex not found for " << value << "\n";
     return -1;
 }
+
+
 template <class T>
 string UndirectedListGraph<T>::toString()
 {
-    return std::string();
+    stringstream buffer;
+    unsigned int count = 1;
+    for (auto row = adjList.begin(); row != adjList.end(); ++row) {
+        buffer << "#" << to_string(count++) << " - ";
+        buffer << *row << "\n";
+        for (auto it = row->getListIteratorBegin(); it != row->getListIteratorEnd(); ++it) {
+            buffer << string(6, ' ');
+            buffer << "- ";
+            buffer << *it;
+            buffer << "\n";
+        }
+        buffer << "\n";
+    }
+    return buffer.str();
 }

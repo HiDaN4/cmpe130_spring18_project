@@ -7,8 +7,51 @@
 #include "Graph.h"
 #include <forward_list>
 
+
 template <class T>
-class Vertices;
+class Node;
+
+template <class T>
+class Vertices
+{
+private:
+    forward_list<Node<T> > listOfNodes;
+    T value;
+public:
+    explicit Vertices(T val)
+    {
+        value = val;
+    }
+
+    T getValue() { return value; }
+
+    typename forward_list<Node<T> >::const_iterator getListIteratorBegin() const {
+        return listOfNodes.begin();
+    }
+
+    typename forward_list<Node<T> >::const_iterator getListIteratorEnd() const {
+        return listOfNodes.end();
+    }
+
+    void insertNode(const Node<T>& node) {
+        listOfNodes.push_front(node);
+    }
+
+    void removeNode(const Node<T>& node) {
+        listOfNodes.remove(node);
+    }
+
+    bool operator==(const Vertices& rhs) {
+        return this->value == rhs.value;
+    }
+
+    friend ostream& operator<<(ostream& ost, const Vertices& obj) {
+        ost << "Vertex '" << obj.value << "'";
+        return ost;
+    }
+};
+
+
 
 template <class T>
 class Node
@@ -26,24 +69,10 @@ public:
     {
         return this->vertexPtr->getValue() == rhs.vertexPtr->getValue();
     }
-};
 
-template <class T>
-class Vertices
-{
-private:
-    forward_list<Node<T> > listOfNodes;
-    T value;
-public:
-    Vertices(T val)
-    {
-        value = val;
-    }
-    T getValue(){return value;}
-    forward_list<Node<T> > getListOfNodes(){return listOfNodes;}
-
-    bool operator==(const Vertices& rhs) {
-        return this->value == rhs.value;
+    friend ostream& operator<<(ostream& ost, const Node& obj) {
+        ost << "Node with cost (" << obj.cost << ") to " << *(obj.vertexPtr);
+        return ost;
     }
 };
 

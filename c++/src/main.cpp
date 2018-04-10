@@ -32,7 +32,12 @@ int main()
     graph2->addEdge("V1", "V4", 15);
     graph2->addEdge("V3", "V2", 69);
 
+    cout << graph2->toString();
+
+    cout << "\nRemoving edge V1-V3\n";
     graph2->removeEdge("V1", "V3");
+
+    cout << graph2->toString();
 
 
 //    UndirectedListGraph<string> adjList(15);
