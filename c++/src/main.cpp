@@ -36,25 +36,10 @@ int main()
 
     cout << "\nRemoving edge V1-V3\n";
     graph2->removeEdge("V1", "V3");
-
+    graph2->removeVertex("V1");
+    graph2->removeVertex("V2");
+    graph2->addVertex("V2");graph2->addVertex("V2");
     cout << graph2->toString();
-
-
-//    UndirectedListGraph<string> adjList(15);
-//    UndirectedMatrixGraph<string> g(12);
-//    graph1 = &g;
-//    graph1 = &adjList;
-
-//
-//    graph1->addVertex(v1);
-//    graph1->addVertex(v2);
-//    graph1->addVertex(v3);
-//    graph1->addVertex(v4);
-//    graph1->removeVertex(v2);
-//
-//    graph1->addEdge(v1, v2,2);
-//    graph1->addEdge(v1,v4,4);
-//    graph1->display();
 
     return 0;
 }

@@ -8,6 +8,16 @@ template <class T>
 void UndirectedListGraph<T>::addVertex(const T &value)
 {
     Vertices<T> vertex(value); // create a vertex of passed value
+
+    //this for loop iterates through the vector and detects if there already exists a "vertex" of the same value. If it does, then return
+    for (auto iterator = adjList.begin(); iterator != adjList.end(); ++iterator)
+    {
+        if (*iterator == vertex)
+        {
+            return;
+        }
+    }
+    //else, push it to the vector
     adjList.push_back(vertex); // push the vertex onto the vector
     ++totalNumberOfVertices;
 }
@@ -28,6 +38,7 @@ void UndirectedListGraph<T>::removeVertex(const T &value)
 template <class T>
 void UndirectedListGraph<T>::addEdge(const T &fromValue, const T &toValue, double cost)
 {
+
     int fromValueIndex = lookUpVertex(fromValue);
     int toValueIndex = lookUpVertex(toValue);
 
