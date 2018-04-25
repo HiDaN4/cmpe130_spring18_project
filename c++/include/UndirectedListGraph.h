@@ -80,12 +80,13 @@ template <class T>
 class UndirectedListGraph : public Graph<T>
 {
 private:
-    vector < Vertices<T> > adjList;
     int count;
     using Graph<T>::totalNumberOfVertices;
 
+protected:
+    vector < Vertices<T> > adjList;
 public:
-    UndirectedListGraph() : Graph<T>(), count(0) { }
+    UndirectedListGraph() : Graph<T>(), count(0){};
 
     virtual void addVertex(const T& value);
     virtual void removeVertex(const T& value);

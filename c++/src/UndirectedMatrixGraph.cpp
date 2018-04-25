@@ -6,14 +6,9 @@
 #include <iomanip> // setprecision
 #include <sstream> // stringstream
 
-//TODO: Test and RemoveEdge
-
 //constructor of undireceted graph using adjacency matrix
 template<class T>
-UndirectedMatrixGraph<T>::UndirectedMatrixGraph() : Graph<T>()
-{
-//    adjMatrix.resize(this->getNumberOfVertices(), vector<double>(this->getNumberOfVertices()));
-}
+UndirectedMatrixGraph<T>::UndirectedMatrixGraph() : Graph<T>() {}
 
 //This function adds a vertices to our vertex List
 // @param: Vertex * addThisVertex
@@ -182,7 +177,6 @@ string UndirectedMatrixGraph<T>::toString()
         str += line + "\n\n";
         line = "";
     }
-
 
     return str;
 }
