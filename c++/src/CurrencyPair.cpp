@@ -10,6 +10,11 @@ CurrencyPair::CurrencyPair(const std::string& from, const std::string& to, const
 }
 
 // Getters
+std::string CurrencyPair::getSymbol() const
+{
+    return symbol;
+}
+
 std::string CurrencyPair::getFromSymbol() const
 {
     return from;

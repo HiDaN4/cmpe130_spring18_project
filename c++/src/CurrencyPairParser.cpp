@@ -31,5 +31,25 @@ std::list<CurrencyPair> CurrencyPairParser::parseCurrenciesString(const std::str
 
 std::list<CurrencyPair> CurrencyPairParser::parseFileAndGetListOfCurrencies(const std::string& fileName)
 {
+    std::list<CurrencyPair> newList;
 
+    std::fstream inputFile;
+    inputFile.open(fileName, std::fstream::in);
+    
+    if(!inputFile.is_open())
+        std::cout << "File could not be opened!" << std::endl;
+
+    else
+    {
+        while(!inputFile.eof())
+        {
+            std::string tempStr;
+            std::getline(inputFile, tempStr);
+
+            newList.push_back(parseLine(tempStr));
+        }
+
+    }
+    
+    return newList;
 }
