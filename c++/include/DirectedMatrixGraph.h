@@ -1,29 +1,24 @@
 //
-// Created by Mian Hashim Shah on 4/4/18.
+// Created by Mian Hashim Shah on 4/25/18.
 //
 
-#ifndef CMPE130PROJECT_UNDIRECTEDMATRIXGRAPH_H
-#define CMPE130PROJECT_UNDIRECTEDMATRIXGRAPH_H
+#ifndef CMPE130PROJECT_DIRECTEDMATRIXGRAPH_H
+#define CMPE130PROJECT_DIRECTEDMATRIXGRAPH_H
 
-#include "Graph.h"
+#include "UndirectedMatrixGraph.h"
 #include <vector>
 
-//Undirected Matric Graph inherits from the parent Graph class
+//src/DirectedMatrixGraph.cpp
 template <class T>
-class UndirectedMatrixGraph : public Graph<T>
+class DirectedMatrixGraph: public UndirectedMatrixGraph<T>
 {
-// vector of vectors to create a 2d matrix
-    // vector list of our vertices
+private:
+    using UndirectedMatrixGraph<T>::adjMatrix;// vector of vectors to create a 2d matrix
+    using UndirectedMatrixGraph<T>::vertexList; // vector list of our vertices
 
     using Graph<T>::totalNumberOfVertices;
-
-protected:
-    vector<Vertex<T> > vertexList;
-    vector<vector<double> > adjMatrix;
 public:
-    UndirectedMatrixGraph();
-
-
+    DirectedMatrixGraph();
     //This function adds a vertices to our vertex List
     // @param: Vertex * addThisVertex
 
@@ -46,9 +41,8 @@ public:
     //1. safe check if the passed vertices are valid
     //2. look up in our vertex list if these vertices exist. Return index of both vertices
     //3. check if edge already exists between them, if yes, then return
-    //4. add edge between the vertices. Since Undirected, edges from both ends are added
+    //4. add edge between the vertices. Since this is Directed, only one edge is added
     virtual void addEdge(const T& fromValue, const T& toValue, double cost);
-
 
     //This function removes an edge between two given vertices
     // @param: Vertex * fromVertex, Vertex * toVertex
@@ -56,7 +50,7 @@ public:
     //1. safe check if the passed vertices are valid
     //2. look up in our vertex list if these vertices exist. Return index of both vertices
     //3. check if edge already exists between them, if not, then nothing to delete. We exit then
-    //4. remove edge between the vertices. Since Undirected, edges from both ends are removed
+    //4. remove edge between the vertices. Since this is Directed, only one edge is removed
     virtual void removeEdge(const T& fromValue, const T& toValue);
 
     //This function checks to see if a vertex exists or not
@@ -72,7 +66,6 @@ public:
     // @param: none
     virtual string toString();
 };
+#include "DirectedMatrixGraph.cpp"
 
-#include "UndirectedMatrixGraph.cpp"
-
-#endif //CMPE130PROJECT_UNDIRECTEDMATRIXGRAPH_H
+#endif //CMPE130PROJECT_DIRECTEDMATRIXGRAPH_H
