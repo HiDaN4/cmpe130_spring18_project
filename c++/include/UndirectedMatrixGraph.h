@@ -23,6 +23,7 @@ protected:
 public:
     UndirectedMatrixGraph();
 
+
     //This function adds a vertices to our vertex List
     // @param: Vertex * addThisVertex
 
@@ -47,6 +48,7 @@ public:
     //3. check if edge already exists between them, if yes, then return
     //4. add edge between the vertices. Since Undirected, edges from both ends are added
     virtual void addEdge(const T& fromValue, const T& toValue, double cost);
+
 
     //This function removes an edge between two given vertices
     // @param: Vertex * fromVertex, Vertex * toVertex
