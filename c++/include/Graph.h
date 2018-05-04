@@ -7,6 +7,8 @@
 
 #include <iostream>
 #include <string>
+#include <ostream>
+
 using namespace std;
 
 //Vertex class which defines a vertex which holds an ID and a Value (which is a template)
@@ -32,7 +34,7 @@ public:
         return vertexID;
     }
 
-    T getValue()
+    T getValue() const
     {
         return value;
     }
@@ -63,7 +65,13 @@ public:
     {
         return this->value == b.value;
     }
+
+    friend std::ostream&operator << (std::ostream& stream, const Vertex<T> obj) {
+        stream << obj.value;
+        return stream;
+    }
 };
+
 
 template <class T>
 int Vertex<T>::vertexIDCounter = 0;
@@ -100,8 +108,9 @@ public:
     virtual void addEdge(const T& fromValue, const T& toValue, double cost) = 0;
     virtual void removeEdge(const T& fromValue, const T& toValue) = 0;
 
+    virtual double getWeight (const T& fromValue, const T& toValue) = 0;
 
-    //rough display function which displays the edges between vertices.
+    //display function which displays the edges between vertices.
     virtual string toString() = 0;
 
 };

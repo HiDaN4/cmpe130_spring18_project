@@ -15,7 +15,7 @@ UndirectedMatrixGraph<T>::UndirectedMatrixGraph() : Graph<T>() {}
 
 //1. adds to list using stl vector function
 //2. notifies user
-//3. increments the number of verices
+//3. increments the number of vertices
 template<class T>
 void UndirectedMatrixGraph<T>::addVertex(const T& value)
 {
@@ -46,7 +46,7 @@ void UndirectedMatrixGraph<T>::addVertex(const T& value)
 
 //1. Checks for whether the vertex existss, if it does, erase from list using stl vector function
 //2. notifies user
-//3. increments the number of verices
+//3. increments the number of vertices
 template<class T>
 void UndirectedMatrixGraph<T>::removeVertex(const T& value)
 {
@@ -140,6 +140,43 @@ int UndirectedMatrixGraph<T>::lookUpVertex(const T& value)
     return -1;
 }
 
+//This function returns the weight between two vertices.
+//@param: const T &fromValue, const T &toValue
+//returns double in the form of the weight
+template <class T>
+double UndirectedMatrixGraph<T>::getWeight(const T &fromValue, const T &toValue)
+{
+    int fromIndex = lookUpVertex(fromValue);
+    int toIndex = lookUpVertex(toValue);
+
+    if (fromIndex != -1 && toIndex != -1) //if both vertices exist
+    {
+        return adjMatrix[fromIndex][toIndex]; //return weight
+    }
+    return -1; //if vertices arent available, return -1
+}
+
+//This function returns the neighbors of a specified vertex
+//@param: const T& targetCoin
+//returns list of neighbors to the targetCoin
+vector<Vertex<T>> UndirectedMatrixGraph<T>::getNeighbors(const T &targetCoin)
+{
+    vector<Vertex<T>> listOfNeighbors;//create a list
+
+    int index = lookUpVertex(targetCoin); //gets index of vertex
+    if (index != -1) //if vertex exists
+    {
+        for (int i = 0; i < this->getNumberOfVertices(); i++)//loop through the rows of matrix
+        {
+            if (adjMatrix[index][i] != 0.00) //if a valid edge exists to the passed vertex
+            {
+                listOfNeighbors.push_back(vertexList[i]);//push the neighbors to the list
+            }
+        }
+    }
+    return std::move(listOfNeighbors);//return list of neighbors
+}
+
 
 template<class T>
 string UndirectedMatrixGraph<T>::toString()
@@ -180,3 +217,4 @@ string UndirectedMatrixGraph<T>::toString()
 
     return str;
 }
+

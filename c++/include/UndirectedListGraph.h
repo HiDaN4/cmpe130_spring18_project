@@ -93,11 +93,12 @@ public:
 
     virtual void addEdge(const T& fromValue, const T& toValue, double cost);
     virtual void removeEdge(const T& fromValue, const T& toValue);
-
+    virtual double getWeight (const T& fromValue, const T& toValue);
     virtual string toString();    //rough display function which displays the edges between vertices.
     virtual int lookUpVertex(const T &value);
 
 };
 
 #include "UndirectedListGraph.cpp"
+
 #endif //CMPE130PROJECT_UNDIRECTEDLISTGRAPH_H

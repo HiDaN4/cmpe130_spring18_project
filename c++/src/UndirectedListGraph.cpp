@@ -63,6 +63,12 @@ void UndirectedListGraph<T>::removeEdge(const T &fromValue, const T &toValue)
 
 }
 
+//TODO: Complete This function
+template <class T>
+double UndirectedListGraph<T>::getWeight(const T &fromValue, const T &toValue)
+{
+    return 0;
+}
 
 template <class T>
 int UndirectedListGraph<T>::lookUpVertex(const T &value)
