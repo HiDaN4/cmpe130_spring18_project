@@ -7,6 +7,7 @@
 
 #include "Graph.h"
 #include <vector>
+#include <unordered_map>
 
 //Undirected Matric Graph inherits from the parent Graph class
 template <class T>
@@ -19,7 +20,10 @@ class UndirectedMatrixGraph : public Graph<T>
 
 protected:
     vector<Vertex<T> > vertexList;
+    std::unordered_map<std::string, unsigned int> verticesMap;
     vector<vector<double> > adjMatrix;
+
+
 public:
     UndirectedMatrixGraph();
 
@@ -72,7 +76,7 @@ public:
     //1. safe check if the passed vertices are valid, and gets the indices of the vertex
     //2. returns the weight or index of the adjgraph at the two vertex indices
     //3. otherwise return -1 if function fails
-    virtual double getWeight (const T& fromValue, const T& toValue);
+    virtual double getWeight(const T& fromValue, const T& toValue);
 
     //This function returns the neighbors of a specified vertex
     // @param: const T& targetCoin
@@ -92,6 +96,10 @@ public:
     //This function gives us an idea of what vetices have an edge between them. -> for testing purposes
     // @param: none
     virtual string toString();
+
+
+    // function to remove all vertices in the graph
+    virtual void reset();
 
 
 };

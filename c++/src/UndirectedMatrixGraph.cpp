@@ -8,7 +8,8 @@
 
 //constructor of undireceted graph using adjacency matrix
 template<class T>
-UndirectedMatrixGraph<T>::UndirectedMatrixGraph() : Graph<T>() {}
+UndirectedMatrixGraph<T>::UndirectedMatrixGraph() : Graph<T>(), adjMatrix(), verticesMap() {}
+
 
 //This function adds a vertices to our vertex List
 // @param: Vertex * addThisVertex
@@ -19,8 +20,19 @@ UndirectedMatrixGraph<T>::UndirectedMatrixGraph() : Graph<T>() {}
 template<class T>
 void UndirectedMatrixGraph<T>::addVertex(const T& value)
 {
+
+    if (lookUpVertex(value) != -1)
+        return;
+
     Vertex<T> vertex(value);
     vertexList.push_back(vertex);
+
+    verticesMap.insert(
+            std::make_pair(
+                    (std::is_same<T, std::string>::value) ? (value) : std::string(value), (vertexList.size() - 1)
+            )
+    );
+
     cout << __FUNCTION__ << ": Added vertex "   << endl;
 
     unsigned int prevCount = totalNumberOfVertices;
@@ -128,16 +140,23 @@ void UndirectedMatrixGraph<T>::removeEdge(const T& fromValue, const T& toValue)
 template<class T>
 int UndirectedMatrixGraph<T>::lookUpVertex(const T& value)
 {
+    auto iterator = verticesMap.find(value);
 
-    for (int i = 0; i < this->getNumberOfVertices(); i++)
-    {
-        if (vertexList[i].getValue() == value)
-        {
-            return i;
-        }
+    if (iterator == verticesMap.end()) {
+        return -1;
     }
-    cout << "Vertex not found!" << endl;
-    return -1;
+
+    return iterator->second;
+
+//    for (int i = 0; i < this->getNumberOfVertices(); i++)
+//    {
+//        if (vertexList[i].getValue() == value)
+//        {
+//            return i;
+//        }
+//    }
+//    cout << "Vertex not found!" << endl;
+//    return -1;
 }
 
 //This function returns the weight between two vertices.
@@ -217,5 +236,13 @@ string UndirectedMatrixGraph<T>::toString()
     }
 
     return str;
+}
+
+
+template<class T>
+void UndirectedMatrixGraph<T>::reset() {
+    vertexList.clear();
+    adjMatrix.clear();
+    totalNumberOfVertices = 0;
 }
 

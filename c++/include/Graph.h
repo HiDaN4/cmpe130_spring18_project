@@ -85,7 +85,6 @@ class Graph
 protected:
     unsigned int totalNumberOfVertices; //number of vertices
 
-private:
     virtual int lookUpVertex(const T& value) = 0;
 
 public:
@@ -109,6 +108,9 @@ public:
     virtual void removeEdge(const T& fromValue, const T& toValue) = 0;
 
     virtual double getWeight (const T& fromValue, const T& toValue) = 0;
+
+    // function to remove all vertices in the graph
+    virtual void reset() = 0;
 
     //display function which displays the edges between vertices.
     virtual string toString() = 0;
