@@ -13,13 +13,13 @@ template <class T>
 class Node;
 
 template <class T>
-class Vertices
+class ListGraphVertex
 {
 private:
     std::forward_list<Node<T> > listOfNodes;
     T value;
 public:
-    explicit Vertices(T val)
+    explicit ListGraphVertex(T val)
     {
         value = val;
     }
@@ -42,11 +42,11 @@ public:
         listOfNodes.remove(node);
     }
 
-    bool operator==(const Vertices& rhs) const {
+    bool operator==(const ListGraphVertex& rhs) const {
         return this->value == rhs.value;
     }
 
-    friend std::ostream& operator<<(std::ostream& ost, const Vertices& obj) {
+    friend std::ostream& operator<<(std::ostream& ost, const ListGraphVertex& obj) {
         ost << "Vertex '" << obj.value << "'";
         return ost;
     }
@@ -58,9 +58,9 @@ template <class T>
 class Node
 {
     double cost;
-    Vertices<T> * vertexPtr;
+    ListGraphVertex<T> * vertexPtr;
 public:
-    Node(Vertices<T> * ptr, double nodeCost)
+    Node(ListGraphVertex<T> * ptr, double nodeCost)
     {
         cost = nodeCost;
         vertexPtr = ptr;
@@ -85,7 +85,7 @@ private:
     using Graph<T>::totalNumberOfVertices;
 
 protected:
-    std::vector < Vertices<T> > adjList;
+    std::vector < ListGraphVertex<T> > adjList;
 public:
     UndirectedListGraph() : Graph<T>(), count(0){};
 
@@ -96,7 +96,11 @@ public:
     virtual void removeEdge(const T& fromValue, const T& toValue);
     virtual double getWeight (const T& fromValue, const T& toValue);
     virtual std::string toString();    //rough display function which displays the edges between vertices.
+
     virtual int lookUpVertex(const T &value);
+
+    // function to remove all vertices in the graph
+    virtual void reset();
 
 };
 

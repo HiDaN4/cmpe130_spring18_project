@@ -7,7 +7,7 @@
 template <class T>
 void UndirectedListGraph<T>::addVertex(const T &value)
 {
-    Vertices<T> vertex(value); // create a vertex of passed value
+    ListGraphVertex<T> vertex(value); // create a vertex of passed value
 
     //this for loop iterates through the vector and detects if there already exists a "vertex" of the same value. If it does, then return
     for (auto iterator = adjList.begin(); iterator != adjList.end(); ++iterator)
@@ -103,4 +103,13 @@ string UndirectedListGraph<T>::toString()
         buffer << "\n";
     }
     return buffer.str();
+}
+
+
+
+template <class T>
+void UndirectedListGraph<T>::reset() {
+    adjList.clear();
+    count = 0;
+    totalNumberOfVertices = 0;
 }
