@@ -7,6 +7,8 @@
 
 #include <iostream>
 #include <string>
+#include <ostream>
+
 using namespace std;
 
 //Vertex class which defines a vertex which holds an ID and a Value (which is a template)
@@ -32,7 +34,7 @@ public:
         return vertexID;
     }
 
-    T getValue()
+    T getValue() const
     {
         return value;
     }
@@ -63,7 +65,13 @@ public:
     {
         return this->value == b.value;
     }
+
+    friend std::ostream&operator << (std::ostream& stream, const Vertex<T> obj) {
+        stream << obj.value;
+        return stream;
+    }
 };
+
 
 template <class T>
 int Vertex<T>::vertexIDCounter = 0;
@@ -77,7 +85,6 @@ class Graph
 protected:
     unsigned int totalNumberOfVertices; //number of vertices
 
-private:
     virtual int lookUpVertex(const T& value) = 0;
 
 public:
@@ -88,7 +95,7 @@ public:
     }
 
     //getter to return the number of nodes in graph
-    unsigned int getNumberOfVertices()
+    unsigned int getNumberOfVertices() const
     {
         return totalNumberOfVertices;
     }
@@ -100,8 +107,12 @@ public:
     virtual void addEdge(const T& fromValue, const T& toValue, double cost) = 0;
     virtual void removeEdge(const T& fromValue, const T& toValue) = 0;
 
+    virtual double getWeight (const T& fromValue, const T& toValue) = 0;
 
-    //rough display function which displays the edges between vertices.
+    // function to remove all vertices in the graph
+    virtual void reset() = 0;
+
+    //display function which displays the edges between vertices.
     virtual string toString() = 0;
 
 };

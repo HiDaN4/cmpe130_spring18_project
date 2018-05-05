@@ -22,6 +22,21 @@ Class diagram for Graph class:
 Diagrams can be found on [LucidChart](https://www.lucidchart.com/invitations/accept/923e3f12-93bf-4315-af38-f11a078edaf6)
 tur
 
+## Building
+### NodeJS
+
+The NodeJS backend interfaces with the C++ code through a module, `interface`. The `interface` module contains useful and relevant functions that call functions from the C++ code. To build this module simply navigate to the `nodejs` directory in your terminal and run the following command: 
+
+`npm run compile`
+
+#### Issues
+
+The package `gyp` requires Python versions: `v2.5.0 <= Python Version < v3.0.0`, so running the previous command may not work if you have multiple versions of python installed, i.e. `python3` and `python2.7`. Specify an alternative python version to use that fits the version requirement in the following build command: 
+
+`npm run compile --python=<python>`
+
+*Where:* `<python>` is the python executable; i.e `python2.7`
+
 ## Authors
 * Antonio Bares
 * Hashim Shah

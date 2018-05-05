@@ -58,6 +58,18 @@ int DirectedMatrixGraph<T>::lookUpVertex(const T &value)
 }
 
 template<class T>
+double DirectedMatrixGraph<T>::getWeight(const T &fromValue, const T &toValue)
+{
+    return UndirectedMatrixGraph<T>::getWeight(fromValue, toValue);
+}
+
+template<class T>
+vector<Vertex<T>> DirectedMatrixGraph<T>::getNeighbors(const T &targetCoin)
+{
+    return UndirectedMatrixGraph<T>::getNeighbors(targetCoin);
+}
+
+template<class T>
 string DirectedMatrixGraph<T>::toString()
 {
     return UndirectedMatrixGraph<T>::toString();
