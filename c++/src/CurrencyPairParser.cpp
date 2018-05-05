@@ -17,7 +17,7 @@ CurrencyPair CurrencyPairParser::parseLine(const std::string& line)
 
     std::getline(lineStream, from, ',');
     std::getline(lineStream, to, ',');
-    std::getline(lineStream, tempStr, '\n');
+    std::getline(lineStream, tempStr);
 
     price = std::stod(tempStr);
 
