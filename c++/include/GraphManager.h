@@ -8,20 +8,21 @@
 #include <string>
 #include <list>
 
-class Graph;
-class CurrencyPair;
+#include "../include/Graph.h"
+#include "../include/CurrencyPair.h"
+
 class CurrencyPairParser;
 
 class GraphManager {
 private:
     const std::string nameOfExchange;
     unsigned int lastUpdateTimestamp;
-    std::unique_ptr<Graph> graph;
-    std::unique_ptr<CurrencyPairParser> parser;
+    std::unique_ptr<Graph<std::string>> graph;
+//    std::unique_ptr<CurrencyPairParser> parser;
 
 public:
     // Constructor
-    GraphManager(std::string nameOfExchange, Graph* graph, CurrencyPairParser* parser);
+    GraphManager(std::string nameOfExchange, Graph<std::string>* graph);
 
     // Getters
     std::string getNameOfExchange() const;

@@ -6,6 +6,7 @@
 #define CMPE130PROJECT_UNDIRECTEDLISTGRAPH_H
 #include "Graph.h"
 #include <forward_list>
+#include <vector>
 
 
 template <class T>
@@ -15,7 +16,7 @@ template <class T>
 class Vertices
 {
 private:
-    forward_list<Node<T> > listOfNodes;
+    std::forward_list<Node<T> > listOfNodes;
     T value;
 public:
     explicit Vertices(T val)
@@ -23,13 +24,13 @@ public:
         value = val;
     }
 
-    T getValue() { return value; }
+    T getValue() const { return value; }
 
-    typename forward_list<Node<T> >::const_iterator getListIteratorBegin() const {
+    typename std::forward_list<Node<T> >::const_iterator getListIteratorBegin() const {
         return listOfNodes.begin();
     }
 
-    typename forward_list<Node<T> >::const_iterator getListIteratorEnd() const {
+    typename std::forward_list<Node<T> >::const_iterator getListIteratorEnd() const {
         return listOfNodes.end();
     }
 
@@ -41,11 +42,11 @@ public:
         listOfNodes.remove(node);
     }
 
-    bool operator==(const Vertices& rhs) {
+    bool operator==(const Vertices& rhs) const {
         return this->value == rhs.value;
     }
 
-    friend ostream& operator<<(ostream& ost, const Vertices& obj) {
+    friend std::ostream& operator<<(std::ostream& ost, const Vertices& obj) {
         ost << "Vertex '" << obj.value << "'";
         return ost;
     }
@@ -70,7 +71,7 @@ public:
         return this->vertexPtr->getValue() == rhs.vertexPtr->getValue();
     }
 
-    friend ostream& operator<<(ostream& ost, const Node& obj) {
+    friend std::ostream& operator<<(std::ostream& ost, const Node& obj) {
         ost << "Node with cost (" << obj.cost << ") to " << *(obj.vertexPtr);
         return ost;
     }
@@ -84,7 +85,7 @@ private:
     using Graph<T>::totalNumberOfVertices;
 
 protected:
-    vector < Vertices<T> > adjList;
+    std::vector < Vertices<T> > adjList;
 public:
     UndirectedListGraph() : Graph<T>(), count(0){};
 
@@ -94,7 +95,7 @@ public:
     virtual void addEdge(const T& fromValue, const T& toValue, double cost);
     virtual void removeEdge(const T& fromValue, const T& toValue);
     virtual double getWeight (const T& fromValue, const T& toValue);
-    virtual string toString();    //rough display function which displays the edges between vertices.
+    virtual std::string toString();    //rough display function which displays the edges between vertices.
     virtual int lookUpVertex(const T &value);
 
 };

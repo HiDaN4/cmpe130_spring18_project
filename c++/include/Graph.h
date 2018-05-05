@@ -96,7 +96,7 @@ public:
     }
 
     //getter to return the number of nodes in graph
-    unsigned int getNumberOfVertices()
+    unsigned int getNumberOfVertices() const
     {
         return totalNumberOfVertices;
     }

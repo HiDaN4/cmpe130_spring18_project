@@ -1,11 +1,16 @@
 #include <iostream>
+#include<vector>
+
+
 #include "Graph.h"
 #include "UndirectedMatrixGraph.h"
 #include "DirectedMatrixGraph.h"
 
 #include "UndirectedListGraph.h"
 #include "DirectedListGraph.h"
-#include<vector>
+
+#include "GraphManager.h"
+
 using namespace std;
 
 int main()
@@ -52,6 +57,12 @@ int main()
 //
 //    graph2->removeEdge("XRP", "BTC");
 //    cout << "\n***\n" << graph2->toString() ;
+
+
+    GraphManager manager("Test", graph1);
+
+    manager.findBestExchangeRoute("BTC", "XRP");
+
 
     return 0;
 }
