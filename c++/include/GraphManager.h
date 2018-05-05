@@ -18,11 +18,11 @@ private:
     const std::string nameOfExchange;
     unsigned int lastUpdateTimestamp;
     std::unique_ptr<Graph<std::string>> graph;
-//    std::unique_ptr<CurrencyPairParser> parser;
+    std::unique_ptr<CurrencyPairParser> parser;
 
 public:
     // Constructor
-    GraphManager(std::string nameOfExchange, Graph<std::string>* graph);
+    GraphManager(std::string nameOfExchange, Graph<std::string>* graph, CurrencyPairParser* pairParser);
 
     // Getters
     std::string getNameOfExchange() const;
