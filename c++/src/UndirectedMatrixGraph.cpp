@@ -77,6 +77,9 @@ void UndirectedMatrixGraph<T>::removeVertex(const T& value)
             iterator->erase(iterator->begin() + index);
         }
 
+        // remove the value from the map as well
+        verticesMap.erase(std::string(value));
+
         cout << __FUNCTION__ << ": Removed vertex at index " << index << endl;
     }
 }
