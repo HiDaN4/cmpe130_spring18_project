@@ -20,6 +20,12 @@ private:
     std::list<CurrencyPair> parseCurrenciesString(const std::string&);
 
 public:
+    // Default Constructor (nothing to initialize)
+    CurrencyPairParser() = default;
+
+    // Default Destructor (nothing to deallocate)
+    ~CurrencyPairParser() = default;
+
     std::list<CurrencyPair> parseFileAndGetListOfCurrencies(const std::string&);
 
 };

@@ -7,6 +7,7 @@
 
 #include "Graph.h"
 #include <vector>
+#include <unordered_map>
 
 //Undirected Matric Graph inherits from the parent Graph class
 template <class T>
@@ -19,10 +20,12 @@ class UndirectedMatrixGraph : public Graph<T>
 
 protected:
     vector<Vertex<T> > vertexList;
+    std::unordered_map<std::string, unsigned int> verticesMap;
     vector<vector<double> > adjMatrix;
+
+
 public:
     UndirectedMatrixGraph();
-
 
     //This function adds a vertices to our vertex List
     // @param: Vertex * addThisVertex
@@ -49,7 +52,6 @@ public:
     //4. add edge between the vertices. Since Undirected, edges from both ends are added
     virtual void addEdge(const T& fromValue, const T& toValue, double cost);
 
-
     //This function removes an edge between two given vertices
     // @param: Vertex * fromVertex, Vertex * toVertex
 
@@ -68,9 +70,38 @@ public:
     //4. otherwise return -1 to indicate "not found"
     virtual int lookUpVertex(const T& value);
 
+    //This function returns the weight between two vertices
+    // @param: const T& fromValue, const T& toValue
+
+    //1. safe check if the passed vertices are valid, and gets the indices of the vertex
+    //2. returns the weight or index of the adjgraph at the two vertex indices
+    //3. otherwise return -1 if function fails
+    virtual double getWeight(const T& fromValue, const T& toValue);
+
+    //This function returns the neighbors of a specified vertex
+    // @param: const T& targetCoin
+
+    /*
+     * This function returns the neighbors of a specified vertex
+     * @param: const T& targetCoin
+     *
+     * 1. Creates a vector of vertices
+     * 2. gets index of the targetCoin
+     * 3. if valid, loop through the rows of adj matrix (for the index of targetCoin) and
+     *    push the vertex (at that index) (which has an edge to our targetCoin) to the list
+     * 4. return the list of neighbors
+     */
+    virtual vector<Vertex<T>> getNeighbors(const T& targetCoin);
+
     //This function gives us an idea of what vetices have an edge between them. -> for testing purposes
     // @param: none
     virtual string toString();
+
+
+    // function to remove all vertices in the graph
+    virtual void reset();
+
+
 };
 
 #include "UndirectedMatrixGraph.cpp"

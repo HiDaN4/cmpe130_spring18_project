@@ -29,3 +29,9 @@ double CurrencyPair::getPrice() const
 {
     return price;
 }
+
+
+std::ostream& operator<<(std::ostream& ostream, const CurrencyPair& obj) {
+    ostream << obj.getFromSymbol() << " - " << obj.getToSymbol() << " [" << obj.getPrice() << "]\n";
+    return ostream;
+}
