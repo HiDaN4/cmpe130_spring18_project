@@ -7,6 +7,7 @@
 #include "Graph.h"
 #include <forward_list>
 #include <vector>
+#include <sstream>
 
 
 template <class T>
