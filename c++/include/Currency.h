@@ -2,10 +2,11 @@
 // Currency Class Specification
 // Author: Antonio G. Bares Jr.
 
-#include <string>
-
 #ifndef CURRENCY_H
 #define CURRENCY_H
+
+#include <string>
+#include <ostream>
 
 class Currency {
 private:
@@ -22,6 +23,7 @@ public:
 
     // Operator Overload
     bool operator== (const Currency&);
+    friend std::ostream& operator<< (std::ostream&, const Currency&);
 };
 
 #endif
