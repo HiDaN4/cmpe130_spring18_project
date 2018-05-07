@@ -1,17 +1,18 @@
+// std
 #include <iostream>
 #include<vector>
 
-
+// custom classes
 #include "Graph.h"
 #include "UndirectedMatrixGraph.h"
 #include "DirectedMatrixGraph.h"
-
 #include "UndirectedListGraph.h"
 #include "DirectedListGraph.h"
 #include "CurrencyPairParser.h"
-
 #include "GraphManager.h"
 
+
+const std::string kInputFilename = "test.csv";
 
 
 int main()
@@ -28,16 +29,16 @@ int main()
 //    graph->addEdge("XRP", "BYTE", 10);
 //    graph->addEdge("BYTE", "BTC", 20);
 
-
-
+    // construct the manager that we use throughout the program
     GraphManager manager("Best Exchange Co.", graph, new CurrencyPairParser());
-    manager.updateGraph("test.csv");
 
+    // make a graph from file
+    manager.updateGraph(kInputFilename);
 
     std::cout << "Printing the graph...\n";
     std::cout << graph->toString();
 
-    manager.findBestExchangeRoute("BTC", "ETH");
+    manager.findBestExchangeRoute("BTC", "ATC");
 
     return 0;
 }

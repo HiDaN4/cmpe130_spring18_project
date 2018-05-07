@@ -61,7 +61,7 @@ public:
     //2. loops through vertex list
     //3. if V is equal to any of the indices, return index
     //4. otherwise return -1 to indicate "not found"
-    virtual int lookUpVertex(const T& value);
+    virtual int lookUpVertex(const T& value) const;
 
     //This function returns the weight between two vertices
     // @param: const T& fromValue, const T& toValue

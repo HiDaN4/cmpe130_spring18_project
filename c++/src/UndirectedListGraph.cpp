@@ -71,7 +71,7 @@ double UndirectedListGraph<T>::getWeight(const T &fromValue, const T &toValue)
 }
 
 template <class T>
-int UndirectedListGraph<T>::lookUpVertex(const T &value)
+int UndirectedListGraph<T>::lookUpVertex(const T &value) const
 {
     for (int i = 0; i < totalNumberOfVertices; i ++) // loop through entire vector
     {

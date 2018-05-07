@@ -52,7 +52,7 @@ void DirectedMatrixGraph<T>::removeEdge(const T &fromValue, const T &toValue)
 }
 
 template<class T>
-int DirectedMatrixGraph<T>::lookUpVertex(const T &value)
+int DirectedMatrixGraph<T>::lookUpVertex(const T &value) const
 {
     return UndirectedMatrixGraph<T>::lookUpVertex(value);
 }

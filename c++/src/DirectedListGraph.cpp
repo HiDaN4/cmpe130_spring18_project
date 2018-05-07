@@ -49,7 +49,7 @@ std::string DirectedListGraph<T>::toString() {
 }
 
 template <class T>
-int DirectedListGraph<T>::lookUpVertex(const T &value)
+int DirectedListGraph<T>::lookUpVertex(const T &value) const
 {
     return UndirectedListGraph<T>::lookUpVertex(value);
 }

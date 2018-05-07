@@ -9,6 +9,7 @@
 #include <string>
 #include <ostream>
 
+
 //Vertex class which defines a vertex which holds an ID and a Value (which is a template)
 template <class T>
 class Vertex
@@ -96,7 +97,7 @@ protected:
      *
      * If the value is not in the graph, return -1
      * */
-    virtual int lookUpVertex(const T& value) = 0;
+    virtual int lookUpVertex(const T& value) const = 0;
 
 public:
 

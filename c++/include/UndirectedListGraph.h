@@ -92,7 +92,7 @@ public:
     virtual double getWeight (const T& fromValue, const T& toValue);
     virtual std::string toString();    //rough display function which displays the edges between vertices.
 
-    virtual int lookUpVertex(const T &value);
+    virtual int lookUpVertex(const T &value) const;
 
     // function to remove all vertices in the graph
     virtual void reset();

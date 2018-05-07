@@ -13,13 +13,16 @@
 #include "UndirectedMatrixGraph.h"
 
 GraphManager::GraphManager(const std::string nameOfExchange, Graph<std::string> *graph, CurrencyPairParser* pairParser):
-        nameOfExchange(nameOfExchange), lastUpdateTimestamp(0), graph(graph), parser(pairParser)
-{
-}
+        nameOfExchange(nameOfExchange), lastUpdateTimestamp(0), graph(graph), parser(pairParser) { }
+
+
 
 std::string GraphManager::getNameOfExchange() const {
     return nameOfExchange;
 }
+
+
+
 
 unsigned int GraphManager::getLastUpdateTimestamp() const {
     return lastUpdateTimestamp;
@@ -58,27 +61,11 @@ void GraphManager::updateGraph(const std::string fileName) {
 }
 
 
-void logStack(std::stack<std::string>& stack) {
-    if (stack.empty()) return;
-
-    std::cout << "Printing Stack:\n";
-    while (!stack.empty()) {
-        std::cout << stack.top() << " ";
-        stack.pop();
-    }
-    std::cout << "\n";
-}
-
 
 
 std::list<CurrencyPair> GraphManager::findBestExchangeRoute(const std::string fromCurrency, const std::string toCurrency) const {
 
-    std::list<CurrencyPair, std::allocator<CurrencyPair>> listOfPairs = std::list<CurrencyPair>();
-
     if (auto * matrixGraph = dynamic_cast<UndirectedMatrixGraph<std::string>*>(graph.get())) {
-//        auto rows = matrixGraph->getMatrixIteratorBegin();
-//        auto verticesList = matrixGraph->getVertexList();
-//        int V = matrixGraph->getNumberOfVertices();
         auto dists = matrixGraph->computeShortestDistanceBetweenVertices(fromCurrency, toCurrency);
 
         if (!dists.empty()) {
@@ -92,7 +79,6 @@ std::list<CurrencyPair> GraphManager::findBestExchangeRoute(const std::string fr
 
     }
 
-
-    return listOfPairs;
+    return std::list<CurrencyPair>();
 }
 

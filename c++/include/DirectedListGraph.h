@@ -13,14 +13,15 @@ private:
     using UndirectedListGraph<T>::adjList;
 public:
     DirectedListGraph();
+
     virtual void addVertex(const T& value);
     virtual void removeVertex(const T& value);
 
     virtual void addEdge(const T& fromValue, const T& toValue, double cost);
     virtual void removeEdge(const T& fromValue, const T& toValue);
 
-    virtual std::string toString();    //rough display function which displays the edges between vertices.
-    virtual int lookUpVertex(const T &value);
+    virtual std::string toString();    //rough display function which returns string of the edges between vertices.
+    virtual int lookUpVertex(const T &value) const;
 
 };
 #include "DirectedListGraph.cpp"
