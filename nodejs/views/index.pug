@@ -18,7 +18,7 @@ block content
         div(class='mdl-grid')
           div(class='mdl-cell mdl-cell--12-col')
             div(class='mdl-textfield mdl-js-textfield')
-              input(class='mdl-textfield__input', type='text', id='src', list='currencies')
+              input(class='mdl-textfield__input', type='text', id='src', list='currencies', name='src')
               label(class='mdl-textfield__label', for='src') Source Currency
               datalist(id='currencies')
                 - currenciesMap.forEach(function(value, key, map) {
@@ -27,7 +27,7 @@ block content
         div(class='mdl-grid')
           div(class='mdl-cell mdl-cell--12-col')
             div(class='mdl-textfield mdl-js-textfield')
-              input(class='mdl-textfield__input', type='text', id='dest', list='currencies')
+              input(class='mdl-textfield__input', type='text', id='dest', list='currencies', name='dest')
               label(class='mdl-textfield__label', for='dest') Destination Currency
         div(class='mdl-grid')
           div(class='mdl-cell mdl-cell--12-col')
