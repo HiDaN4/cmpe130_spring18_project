@@ -19,13 +19,16 @@ class UndirectedMatrixGraph : public Graph<T>
     using Graph<T>::totalNumberOfVertices;
 
 protected:
-    vector<Vertex<T> > vertexList;
+    std::vector<Vertex<T> > vertexList;
     std::unordered_map<std::string, unsigned int> verticesMap;
-    vector<vector<double> > adjMatrix;
+    std::vector< std::vector<double> > adjMatrix;
 
 
 public:
+    // Default Constructor
     UndirectedMatrixGraph();
+
+
 
     //This function adds a vertices to our vertex List
     // @param: Vertex * addThisVertex
@@ -38,7 +41,7 @@ public:
     //This function removes a vertices to our vertex List
     // @param: Vertex * deleteThisVertex
 
-    //1. Checks for whether the vertex existss, if it does, erase from list using stl vector function
+    //1. Checks for whether the vertex exists, if it does, erase from list using stl vector function
     //2. notifies user
     //3. increments the number of verices
     virtual void removeVertex(const T& value);
@@ -91,18 +94,24 @@ public:
      *    push the vertex (at that index) (which has an edge to our targetCoin) to the list
      * 4. return the list of neighbors
      */
-    virtual vector<Vertex<T>> getNeighbors(const T& targetCoin);
+    virtual std::vector< Vertex<T> > getNeighbors(const T& targetCoin);
 
     //This function gives us an idea of what vetices have an edge between them. -> for testing purposes
     // @param: none
-    virtual string toString();
+    virtual std::string toString();
 
 
     // function to remove all vertices in the graph
     virtual void reset();
 
+    /*! computeShortestDistanceBetweenAllVertices - Calculate shortest paths between all vertices using Floyd-Warshall Algorithm
+     *
+     * @return 2D vector with shortest paths between all vertices
+    */
+    virtual std::vector< std::vector<double> > computeShortestDistanceBetweenAllVertices();
 
 };
+
 
 #include "UndirectedMatrixGraph.cpp"
 

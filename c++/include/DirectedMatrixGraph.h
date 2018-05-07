@@ -13,6 +13,7 @@ template <class T>
 class DirectedMatrixGraph: public UndirectedMatrixGraph<T>
 {
 private:
+    using UndirectedMatrixGraph<T>::verticesMap;
     using UndirectedMatrixGraph<T>::adjMatrix;// vector of vectors to create a 2d matrix
     using UndirectedMatrixGraph<T>::vertexList; // vector list of our vertices
 
@@ -83,11 +84,12 @@ public:
      *    push the vertex (at that index) (which has an edge to our targetCoin) to the list
      * 4. return the list of neighbors
      */
-    virtual vector<Vertex<T>> getNeighbors(const T& targetCoin);
+    virtual std::vector< Vertex<T> > getNeighbors(const T& targetCoin);
 
     //This function gives us an idea of what vetices have an edge between them. -> for testing purposes
     // @param: none
-    virtual string toString();
+    virtual std::string toString();
+
 };
 
 #include "DirectedMatrixGraph.cpp"

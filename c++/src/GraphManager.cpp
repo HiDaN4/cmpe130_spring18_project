@@ -6,9 +6,11 @@
 #include <queue>
 #include <limits>
 #include <unordered_map>
+#include <stack>
 
 #include "../include/GraphManager.h"
 #include "../include/CurrencyPairParser.h"
+#include "UndirectedMatrixGraph.h"
 
 GraphManager::GraphManager(const std::string nameOfExchange, Graph<std::string> *graph, CurrencyPairParser* pairParser):
         nameOfExchange(nameOfExchange), lastUpdateTimestamp(0), graph(graph), parser(pairParser)
@@ -55,36 +57,45 @@ void GraphManager::updateGraph(const std::string fileName) {
 
 }
 
-std::list<CurrencyPair> GraphManager::findBestExchangeRoute(const std::string fromCurrency, const std::string toCurrency) const {
-    // stub
-    // TODO: implement
-    //    auto value_type = graph->getType();
-    typedef std::pair<double, std::string> graphPair;
-    typedef std::vector<CurrencyPair> currencyPairVector;
 
-    int vertices = graph->getNumberOfVertices();
-    double dist[vertices][vertices];
+void logStack(std::stack<std::string>& stack) {
+    if (stack.empty()) return;
 
-    for (int i = 0; i < vertices; ++i) {
-
+    std::cout << "Printing Stack:\n";
+    while (!stack.empty()) {
+        std::cout << stack.top() << " ";
+        stack.pop();
     }
-
-    std::priority_queue<graphPair, std::vector<graphPair>, std::greater<> > priorityQueue;
-
-//    std::vector<graphPair> dist(graph->getNumberOfVertices(), std::make_pair(std::numeric_limits<double >::max(), ""));
-
-    std::unordered_map< std::string, std::list<CurrencyPair> > hashTable(graph->getNumberOfVertices());
-
-    priorityQueue.push(std::make_pair(0.0, fromCurrency));
-
-    hashTable[fromCurrency] = std::list<CurrencyPair>();
-    hashTable[fromCurrency].push_back(CurrencyPair(fromCurrency, fromCurrency, 0.0));
-
-    auto mlist = hashTable[fromCurrency];
-    for (auto &it : mlist) {
-        std:cout << it << "\n";
-    }
-
-
-    return std::list<CurrencyPair>();
+    std::cout << "\n";
 }
+
+
+
+std::list<CurrencyPair> GraphManager::findBestExchangeRoute(const std::string fromCurrency, const std::string toCurrency) const {
+
+    std::list<CurrencyPair, std::allocator<CurrencyPair>> listOfPairs = std::list<CurrencyPair>();
+
+    if (auto * matrixGraph = dynamic_cast<UndirectedMatrixGraph<std::string>*>(graph.get())) {
+//        auto rows = matrixGraph->getMatrixIteratorBegin();
+//        auto verticesList = matrixGraph->getVertexList();
+//        int V = matrixGraph->getNumberOfVertices();
+        auto dists = matrixGraph->computeShortestDistanceBetweenAllVertices();
+
+        std::cout << "\nDistances:\n";
+//        for (int l = 0; l < V;  ++l) {
+//            for (int i = 0; i < V;  ++i) {
+//                std::cout << dists[l][i] << "  ";
+//            }
+//            std::cout << "\n\n";
+//        }
+    }
+
+//    std::cout << "Printing list:\n";
+//    for (auto it: listOfPairs) {
+//        std::cout << " * " << it << "\n";
+//    }
+
+
+    return listOfPairs;
+}
+

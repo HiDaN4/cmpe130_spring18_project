@@ -7,6 +7,7 @@
 
 #include <string>
 #include <list>
+#include <iostream>
 
 #include "../include/Graph.h"
 #include "../include/CurrencyPair.h"
