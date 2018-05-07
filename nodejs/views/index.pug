@@ -1,5 +1,48 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div(class='mdl-layout mdl-js-layout')
+    main(class='mdl-layout__content')
+      div(class='mdl-grid')
+        div(class='mdl-cell mdl-cell--12-col')
+          h1(style='margin:0;') #{title}
+      div(class='mdl-grid')
+        div(class='mdl-cell mdl-cell--12-col')
+          h3(style='margin:0;') Empowering cryptocurrency traders 
+      div(class='mdl-grid')
+        div(class='mdl-cell mdl-cell--12-col')
+          p Kryptos maximizes realized gains from any cryptocurrency coin to another coin or fiat currency.
+            |  Test out the functionality below.
+
+      form(action='/', method='get')
+        div(class='mdl-grid')
+          div(class='mdl-cell mdl-cell--12-col')
+            div(class='mdl-textfield mdl-js-textfield')
+              input(class='mdl-textfield__input', type='text', id='src', list='currencies')
+              label(class='mdl-textfield__label', for='src') Source Currency
+              datalist(id='currencies')
+                - currenciesMap.forEach(function(value, key, map) {
+                  option(value=value)
+                - })
+        div(class='mdl-grid')
+          div(class='mdl-cell mdl-cell--12-col')
+            div(class='mdl-textfield mdl-js-textfield')
+              input(class='mdl-textfield__input', type='text', id='dest', list='currencies')
+              label(class='mdl-textfield__label', for='dest') Destination Currency
+        div(class='mdl-grid')
+          div(class='mdl-cell mdl-cell--12-col')
+            input(type='submit', value='submit', class='mdl-button mdl-js-button mdl-button--raised mdl-button--colored')
+
+      if hasResult
+        div(class='mdl-grid')
+          div(class='mdl-cell mdl-cell--12-col')
+            h3(style='margin:0;') Result
+            p The set of trades results in maximized gains:
+              br
+              ol
+                each key in tradesMap.size
+                  li = `${key} -> ${tradesMap[key]}`
+      else
+        //- div(class='mdl-grid')
+        //-   div(class='mdl-cell mdl-cell--12-col')
+        //-     h3(style='margin:0;') No Result
