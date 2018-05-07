@@ -9,6 +9,8 @@
 #include <vector>
 #include <unordered_map>
 
+class CurrencyPair;
+
 //Undirected Matric Graph inherits from the parent Graph class
 template <class T>
 class UndirectedMatrixGraph : public Graph<T>
@@ -108,7 +110,9 @@ public:
      *
      * @return 2D vector with shortest paths between all vertices
     */
-    virtual std::vector< std::vector<double> > computeShortestDistanceBetweenAllVertices();
+    virtual std::vector< std::vector<double> > computeShortestDistanceBetweenAllVertices() const;
+
+    virtual std::vector<CurrencyPair> computeShortestDistanceBetweenVertices(const T& from, const T& to);
 
 };
 

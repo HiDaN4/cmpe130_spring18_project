@@ -79,21 +79,18 @@ std::list<CurrencyPair> GraphManager::findBestExchangeRoute(const std::string fr
 //        auto rows = matrixGraph->getMatrixIteratorBegin();
 //        auto verticesList = matrixGraph->getVertexList();
 //        int V = matrixGraph->getNumberOfVertices();
-        auto dists = matrixGraph->computeShortestDistanceBetweenAllVertices();
+        auto dists = matrixGraph->computeShortestDistanceBetweenVertices(fromCurrency, toCurrency);
 
-        std::cout << "\nDistances:\n";
-//        for (int l = 0; l < V;  ++l) {
-//            for (int i = 0; i < V;  ++i) {
-//                std::cout << dists[l][i] << "  ";
-//            }
-//            std::cout << "\n\n";
-//        }
+        if (!dists.empty()) {
+            std::cout << "\nPairs:\n";
+            for (auto& pair : dists)
+                std::cout << pair;
+            std::cout << "\n";
+        } else {
+            std::cout << "No path found!\n";
+        }
+
     }
-
-//    std::cout << "Printing list:\n";
-//    for (auto it: listOfPairs) {
-//        std::cout << " * " << it << "\n";
-//    }
 
 
     return listOfPairs;

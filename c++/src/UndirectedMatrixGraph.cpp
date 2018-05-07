@@ -6,8 +6,11 @@
 #include <iomanip> // setprecision
 #include <sstream> // stringstream
 #include <limits> // double max value
+#include <stack>
 
+#include "CurrencyPair.h"
 
+// INF represents no-edge
 static double INF = std::numeric_limits<double>::max();
 
 //constructor of undirected graph using adjacency matrix
@@ -187,7 +190,7 @@ std::vector< Vertex<T> > UndirectedMatrixGraph<T>::getNeighbors(const T &targetC
     {
         for (int i = 0; i < this->getNumberOfVertices(); i++)//loop through the rows of matrix
         {
-            if (adjMatrix[index][i] != 0.00) //if a valid edge exists to the passed vertex
+            if (adjMatrix[index][i] != INF) //if a valid edge exists to the passed vertex
             {
                 listOfNeighbors.push_back(vertexList[i]);//push the neighbors to the list
             }
@@ -237,7 +240,11 @@ std::string UndirectedMatrixGraph<T>::toString()
         for (auto column = it->begin(); column != it->end(); ++column) {
             buffer.str(std::string());
             const double value = (*column == INF) ? -1 : *column;
-            buffer << std::fixed << std::setprecision(2) << value << spaces; // get value of double with precision of 2
+            if (value != -1)
+                buffer << std::fixed << std::setprecision(2) << value << spaces; // get value of double with precision of 2
+            else
+                buffer << "INF" << spaces; // get value of double with precision of 2
+
             line += buffer.str();
         }
         str += line + "\n\n";
@@ -267,7 +274,7 @@ void UndirectedMatrixGraph<T>::reset() {
  * @return 2D vector with shortest paths between all vertices
  */
 template<class T>
-std::vector<std::vector<double> > UndirectedMatrixGraph<T>::computeShortestDistanceBetweenAllVertices() {
+std::vector<std::vector<double> > UndirectedMatrixGraph<T>::computeShortestDistanceBetweenAllVertices() const {
 
     // get the number of vertices
     const unsigned int V = this->getNumberOfVertices();
@@ -309,4 +316,83 @@ std::vector<std::vector<double> > UndirectedMatrixGraph<T>::computeShortestDista
     */
 
     return dists;
+}
+
+
+
+
+/*! computeShortestDistanceBetweenVertices - Calculate shortest paths between two searched vertices using Floyd-Warshall Algorithm
+ *
+ * @tparam T - the object type that Graph holds
+ * @return vector with shortest paths between given vertices.
+ *         If those vertices do not exist in the graph, return empty vector
+ */
+template<class T>
+std::vector<CurrencyPair> UndirectedMatrixGraph<T>::computeShortestDistanceBetweenVertices(const T& from, const T& to) {
+
+    // first check if vertices with given values exist in the graph
+    const int sourceIndex = lookUpVertex(from);
+    const int destIndex = lookUpVertex(to);
+
+    // if the from or to target vertices is not present in the graph,
+    // return empty vector because we do not need to iterate through the graph
+    if (sourceIndex == -1 || destIndex == -1)
+        return std::vector<CurrencyPair>();
+
+
+    // get the number of vertices
+    const unsigned int V = this->getNumberOfVertices();
+    // copy the matrix of current distances. this 2D vector will contain the shortest paths after running Floyd-Warshall Algorithm
+    std::vector< std::vector<double> > dists(adjMatrix);
+
+    std::vector<CurrencyPair> pairs;
+
+    // implementation of the all-pairs-short algorithm
+    for (int intermediateVertex = 0; intermediateVertex < V; ++intermediateVertex) {
+
+        // Pick all vertices as source one by one
+        for (int sourceVertex = 0; sourceVertex < V; ++sourceVertex) {
+
+            // Pick all vertices as destination for the
+            // above picked source
+            for (int destinationVertex = 0; destinationVertex < V; ++destinationVertex) {
+
+                if (
+                        dists[sourceVertex][intermediateVertex] != INF && // avoid overflow before summing up
+                        dists[intermediateVertex][destinationVertex] != INF &&
+                        dists[sourceVertex][intermediateVertex] + dists[intermediateVertex][destinationVertex]
+                        < dists[sourceVertex][destinationVertex] // check if the sum is smaller than actual path
+                        )
+                {
+                    // save the distance in the matrix
+                    dists[sourceVertex][destinationVertex] = dists[sourceVertex][intermediateVertex] + dists[intermediateVertex][destinationVertex];
+
+                    // and put the pair into the queue
+                    if (vertexList[sourceVertex].getValue() == from && vertexList[destinationVertex].getValue() == to) {
+                        auto fromS = vertexList[sourceVertex].getValue();
+                        auto intermidS = vertexList[intermediateVertex].getValue();
+                        auto destS = vertexList[destinationVertex].getValue();
+
+                        pairs.emplace_back(fromS, intermidS, dists[sourceVertex][intermediateVertex]);
+                        pairs.emplace_back(intermidS, destS, dists[intermediateVertex][destinationVertex]);
+                    }
+                }
+            }
+        }
+    }
+
+    // if we found pairs, we should return it now
+    if (!pairs.empty())
+        return pairs;
+
+
+    // if not, we still need to check if the graph has the direct cost for our target pair
+
+
+    if (sourceIndex != -1 && destIndex != -1 && dists[sourceIndex][destIndex] != INF) {
+        // if the distance is not INF, then return this pair
+        pairs.emplace_back(vertexList[sourceIndex].getValue(), vertexList[destIndex].getValue(), dists[sourceIndex][destIndex]);
+    }
+
+    return pairs;
 }
