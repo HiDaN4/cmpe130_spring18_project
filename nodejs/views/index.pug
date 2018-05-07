@@ -4,45 +4,61 @@ block content
   div(class='mdl-layout mdl-js-layout')
     main(class='mdl-layout__content')
       div(class='mdl-grid')
-        div(class='mdl-cell mdl-cell--12-col')
+        div(class='mdl-cell mdl-cell--4-col')
+        div(class='mdl-cell mdl-cell--4-col')
           h1(style='margin:0;') #{title}
+        div(class='mdl-cell mdl-cell--4-col')
       div(class='mdl-grid')
-        div(class='mdl-cell mdl-cell--12-col')
+        div(class='mdl-cell mdl-cell--4-col')
+        div(class='mdl-cell mdl-cell--4-col')
           h3(style='margin:0;') Empowering cryptocurrency traders 
+        div(class='mdl-cell mdl-cell--4-col')
       div(class='mdl-grid')
-        div(class='mdl-cell mdl-cell--12-col')
+        div(class='mdl-cell mdl-cell--4-col')
+        div(class='mdl-cell mdl-cell--4-col')
           p Kryptos maximizes realized gains from any cryptocurrency coin to another coin or fiat currency.
             |  Test out the functionality below.
+        div(class='mdl-cell mdl-cell--4-col')
 
       form(action='/', method='get')
         div(class='mdl-grid')
-          div(class='mdl-cell mdl-cell--12-col')
-            div(class='mdl-textfield mdl-js-textfield')
+          div(class='mdl-cell mdl-cell--4-col')
+          div(class='mdl-cell mdl-cell--4-col')
+            div(class='mdl-textfield mdl-js-textfield', style='width:100%;')
               input(class='mdl-textfield__input', type='text', id='src', list='currencies', name='src')
-              label(class='mdl-textfield__label', for='src') Source Currency
+              label(class='mdl-textfield__label', for='src',) Source Currency
               datalist(id='currencies')
                 - currenciesMap.forEach(function(value, key, map) {
                   option(value=value)
                 - })
+          div(class='mdl-cell mdl-cell--4-col')
         div(class='mdl-grid')
-          div(class='mdl-cell mdl-cell--12-col')
-            div(class='mdl-textfield mdl-js-textfield')
+          div(class='mdl-cell mdl-cell--4-col')
+          div(class='mdl-cell mdl-cell--4-col')
+            div(class='mdl-textfield mdl-js-textfield', style='width:100%;')
               input(class='mdl-textfield__input', type='text', id='dest', list='currencies', name='dest')
               label(class='mdl-textfield__label', for='dest') Destination Currency
+          div(class='mdl-cell mdl-cell--4-col')
         div(class='mdl-grid')
-          div(class='mdl-cell mdl-cell--12-col')
+          div(class='mdl-cell mdl-cell--4-col')
+          div(class='mdl-cell mdl-cell--4-col')
             input(type='submit', value='submit', class='mdl-button mdl-js-button mdl-button--raised mdl-button--colored')
+          div(class='mdl-cell mdl-cell--4-col')
 
       if hasResult
         div(class='mdl-grid')
-          div(class='mdl-cell mdl-cell--12-col')
+          div(class='mdl-cell mdl-cell--4-col')
+          div(class='mdl-cell mdl-cell--4-col')
             h3(style='margin:0;') Result
             p The set of trades results in maximized gains:
               br
               ol
                 each key in tradesMap.size
                   li = `${key} -> ${tradesMap[key]}`
+          div(class='mdl-cell mdl-cell--4-col')
       else
-        //- div(class='mdl-grid')
-        //-   div(class='mdl-cell mdl-cell--12-col')
-        //-     h3(style='margin:0;') No Result
+        div(class='mdl-grid')
+          div(class='mdl-cell mdl-cell--4-col')
+          div(class='mdl-cell mdl-cell--4-col')
+            h3(style='margin:0;') No Result
+          div(class='mdl-cell mdl-cell--4-col')

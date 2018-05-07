@@ -7,9 +7,9 @@ const mod = require('../lib/module');
 var graphManager = new mod.GraphManagerInterface("HitBTC");
 
 getCurrenciesMapPromise = function() {
-  return new Promise(function(resolve, reject){
+  return new Promise(function(resolve, reject) {
     client.getCurrenciesMap(function(err, data) {
-      if(data != null)
+      if (data != null)
         resolve(data);
 
       else
@@ -18,38 +18,68 @@ getCurrenciesMapPromise = function() {
   });
 }
 
+writeNewCurrencyDataToFilePromise = function(filename) {
+  return new Promise(function(resolve, reject) {
+    client.writeNewCurrencyDataToFile(filename, function(err) {
+      if (!err)
+        resolve();
+      else
+        reject(err);
+    })
+  });
+}
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var tradesMap = new Map();
   var hasResult = false;
 
-
-  if(req.query.src && req.query.dest)
-  {
-    if (req.query.src == req.query.dest)
-      console.log("Error: Src & Dest cannot be the same");
-
-    else {
-      
-    }
-
-  }
-
   var currenciesPromise = getCurrenciesMapPromise();
-  currenciesPromise.then(function(data){
-  
+  currenciesPromise.then(function(data) {
     return new Promise(function(resolve, reject) {
-      var currencies = new Map();
+      var currenciesMap = new Map();
       data.forEach(function(value, currency, map) {
         let symbol = currency;
         let name = value.get('fullName');
     
-        currencies.set(symbol, name);
+        currenciesMap.set(symbol, name);
       })
   
-      resolve(currencies);
+      resolve(currenciesMap);
     })
-  }).then(currenciesMap => res.render('index', { title: 'Kryptos' , hasResult: false, currenciesMap: currenciesMap, tradesMap: tradesMap})).catch(error => console.log(error));
+  }).then(function(currenciesMap) {
+
+    if (req.query.src && req.query.dest) {
+      if (req.query.src == req.query.dest) {
+        console.log("Error: Src & Dest cannot be the same");
+        res.render('index', { title: 'Kryptos' , hasResult: false, currenciesMap: currenciesMap, tradesMap: tradesMap});
+      }
+  
+      else {
+       if (!currenciesMap.has(req.query.src) || !currenciesMap.has(req.query.dest)) {
+         console.log("Src or Dest do not exist");
+         res.render('index', { title: 'Kryptos' , hasResult: false, currenciesMap: currenciesMap, tradesMap: tradesMap});
+       }
+       else {
+        const currentTimeString = new Date().toLocaleTimeString();
+        const filename = `currency_data-${currentTimeString}.csv`
+        var writeDataPromise = writeNewCurrencyDataToFilePromise(filename);
+  
+        writeDataPromise.then(function() {
+          let result = graphManager.findBestExchangeRoute(req.query.src, req.query.dest);
+          console.log(result);
+
+          res.render('index', { title: 'Kryptos' , hasResult: true, currenciesMap: currenciesMap, tradesMap: tradesMap});
+
+        }).catch(error => console.log(error));
+       }
+      }
+    } else {
+      res.render('index', { title: 'Kryptos' , hasResult: false, currenciesMap: currenciesMap, tradesMap: tradesMap});
+    }
+
+  }).catch(error => console.log(error));
 
 });
 
