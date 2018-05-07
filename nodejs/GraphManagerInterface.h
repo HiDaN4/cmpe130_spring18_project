@@ -26,7 +26,7 @@ public:
     GraphManagerInterface(std::string&);
 
     // Destructor
-    ~GraphManagerInterface();
+    ~GraphManagerInterface() = default;
 
     // Getters
     static NAN_METHOD(getNameOfExchange);
