@@ -124,6 +124,10 @@ public:
     // function to remove all vertices in the graph
     virtual void reset() = 0;
 
+    virtual bool isEmpty() const {
+        return totalNumberOfVertices == 0;
+    }
+
     //display function which displays the edges between vertices.
     virtual std::string toString() = 0;
 };

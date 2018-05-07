@@ -38,7 +38,7 @@ int main()
     std::cout << "Printing the graph...\n";
     std::cout << graph->toString();
 
-    manager.findBestExchangeRoute("BTC", "ATC");
+    manager.findBestExchangeRoute("BTC", "TIME");
 
     return 0;
 }

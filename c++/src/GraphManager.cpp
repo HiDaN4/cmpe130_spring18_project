@@ -40,8 +40,8 @@ void GraphManager::updateGraph(const std::string fileName) {
         return;
     }
 
-    // reset the contents of the graph
-    graph->reset();
+    // if for the first time graph is empty, we will need to add vertices while parsing pairs
+    bool shouldAddVertices = graph->isEmpty();
 
     // temp values to store parsed symbols
     std::string fromSymbol;
@@ -53,8 +53,11 @@ void GraphManager::updateGraph(const std::string fileName) {
         toSymbol = pair.getToSymbol();
 
         // update the graph
-        graph->addVertex(fromSymbol);
-        graph->addVertex(toSymbol);
+        if (shouldAddVertices) {
+            graph->addVertex(fromSymbol);
+            graph->addVertex(toSymbol);
+        }
+
         graph->addEdge(fromSymbol, toSymbol, pair.getPrice());
     }
 

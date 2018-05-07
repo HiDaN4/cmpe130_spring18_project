@@ -371,14 +371,12 @@ std::list<CurrencyPair> UndirectedMatrixGraph<T>::computeShortestDistanceBetween
                     dists[sourceVertex][destinationVertex] = dists[sourceVertex][intermediateVertex] + dists[intermediateVertex][destinationVertex];
 
                     // and put the pair into the queue
-                    if (vertexList[sourceVertex].getValue() == from || vertexList[destinationVertex].getValue() == to) {
+                    if (vertexList[destinationVertex].getValue() == to) {
                         auto fromS = vertexList[sourceVertex].getValue();
                         auto intermidS = vertexList[intermediateVertex].getValue();
                         auto destS = vertexList[destinationVertex].getValue();
 
                         std::cout << "Value: " <<  dists[sourceVertex][intermediateVertex] << "\n";
-
-//                        if (pairs.size() > 1)
 
 
                         pairs.emplace_back(fromS, intermidS, dists[sourceVertex][intermediateVertex]);
