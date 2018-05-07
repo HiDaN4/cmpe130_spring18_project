@@ -54,8 +54,9 @@ NAN_METHOD(GraphManagerInterface::New)
     info.GetReturnValue().Set(info.Holder());
 }
 
-GraphManagerInterface::GraphManagerInterface(std::string& nameOfExchange) : graph(DirectedListGraph<std::string>()), currencyPairParser(CurrencyPairParser()), graphManager(GraphManager(nameOfExchange, &graph, & currencyPairParser))
+GraphManagerInterface::GraphManagerInterface(std::string& nameOfExchange)
 {
+    graphManager = std::make_unique<GraphManager>(nameOfExchange, new DirectedListGraph<std::string>(), new CurrencyPairParser());
 }
 
 // Getters
@@ -68,7 +69,7 @@ NAN_METHOD(GraphManagerInterface::getNameOfExchange)
         return Nan::ThrowError(Nan::New("'getNameOfExchange' expects no arguments'").ToLocalChecked());
 
     // Convert std::string to v8::String type
-    std::string name = self->graphManager.getNameOfExchange();
+    std::string name = self->graphManager->getNameOfExchange();
     v8::Local<v8::String> v8Name = v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), name.c_str());
 
     info.GetReturnValue().Set(v8Name);
@@ -82,7 +83,7 @@ NAN_METHOD(GraphManagerInterface::getLastUpdateTimestamp)
     if (info.Length() > 0)
         return Nan::ThrowError(Nan::New("'getLastUpdateTimestamp' expects no arguments'").ToLocalChecked());
 
-    info.GetReturnValue().Set(self->graphManager.getLastUpdateTimestamp());
+    info.GetReturnValue().Set(self->graphManager->getLastUpdateTimestamp());
 }
 
 NAN_METHOD(GraphManagerInterface::updateGraph)
@@ -100,7 +101,7 @@ NAN_METHOD(GraphManagerInterface::updateGraph)
     v8::String::Utf8Value utf8Str(info[0]->ToString());
     std::string str = std::string(*utf8Str);
 
-    self->graphManager.updateGraph(str);
+    self->graphManager->updateGraph(str);
 }
 
 NAN_METHOD(GraphManagerInterface::findBestExchangeRoute)

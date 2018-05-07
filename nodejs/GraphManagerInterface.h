@@ -3,6 +3,7 @@
 // Author: Antonio G. Bares Jr
 
 #include <nan.h>
+#include <memory>
 #include <string>
 #include "../c++/include/GraphManager.h"
 #include "../c++/include/CurrencyPairParser.h"
@@ -11,9 +12,7 @@
 class GraphManagerInterface : public Nan::ObjectWrap
 {
 private:
-    DirectedListGraph<std::string> graph;
-    CurrencyPairParser currencyPairParser;
-    GraphManager graphManager;
+    std::unique_ptr<GraphManager> graphManager;
 
 public:
     // Module Init
@@ -25,6 +24,9 @@ public:
     // Constructor
     static NAN_METHOD(New);
     GraphManagerInterface(std::string&);
+
+    // Destructor
+    ~GraphManagerInterface();
 
     // Getters
     static NAN_METHOD(getNameOfExchange);

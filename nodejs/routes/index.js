@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-var tradesMap = new Map();
 const client = require('../lib/hitbtc-client');
+const mod = require('../lib/module');
+
+var graphManager = new mod.GraphManagerInterface("HitBTC");
 
 getCurrenciesMapPromise = function() {
   return new Promise(function(resolve, reject){
@@ -18,6 +20,21 @@ getCurrenciesMapPromise = function() {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  var tradesMap = new Map();
+  var hasResult = false;
+
+
+  if(req.query.src && req.query.dest)
+  {
+    if (req.query.src == req.query.dest)
+      console.log("Error: Src & Dest cannot be the same");
+
+    else {
+      
+    }
+
+  }
+
   var currenciesPromise = getCurrenciesMapPromise();
   currenciesPromise.then(function(data){
   
@@ -34,8 +51,7 @@ router.get('/', function(req, res, next) {
     })
   }).then(currenciesMap => res.render('index', { title: 'Kryptos' , hasResult: false, currenciesMap: currenciesMap, tradesMap: tradesMap})).catch(error => console.log(error));
 
-
-  ;
 });
 
 module.exports = router;
+module.exports.graphManager = graphManager;
