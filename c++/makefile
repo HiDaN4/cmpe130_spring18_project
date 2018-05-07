@@ -7,11 +7,13 @@ OBJFOLDER = build
 SRCFOLDER = src
 INCFOLDER = include
 EXECUTABLE = exec
+LIBRARY = libproject.a
+LIBRARYDIR = ../nodejs/lib
 
-all: libproject.a
+all: $(LIBRARY)
 
 libproject.a: $(OBJ)
-	 ar rc libproject.a $(OBJ)
+	 ar rc $(LIBRARYDIR)/$(LIBRARY) $(OBJ)
 
 # Commented sections are for compiling the src into an executable
 # all: $(EXECUTABLE)
@@ -42,4 +44,4 @@ $(OBJFOLDER)/%.o: $(SRCFOLDER)/%.cpp $(INCFOLDER)/%.h
 
 .PHONY:
 clean:
-	@rm build/*.o $(EXECUTABLE)
+	@rm build/*.o $(LIBRARYDIR)/$(LIBRARY)
