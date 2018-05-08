@@ -6,13 +6,11 @@
 #include "Graph.h"
 #include "UndirectedMatrixGraph.h"
 #include "DirectedMatrixGraph.h"
-#include "UndirectedListGraph.h"
-#include "DirectedListGraph.h"
 #include "CurrencyPairParser.h"
 #include "GraphManager.h"
 
 
-const std::string kInputFilename = "test.csv";
+const std::string kInputFilename = "short.csv";
 
 
 int main()
