@@ -47,11 +47,13 @@ void GraphManager::updateGraph(const std::string fileName) {
     // temp values to store parsed symbols
     std::string fromSymbol;
     std::string toSymbol;
+    double price;
 
     for (auto& pair: pairs) {
         // get the values from the pair
         fromSymbol = pair.getFromSymbol();
         toSymbol = pair.getToSymbol();
+        price = pair.getPrice();
 
         // update the graph
         if (shouldAddVertices) {
@@ -59,7 +61,8 @@ void GraphManager::updateGraph(const std::string fileName) {
             graph->addVertex(toSymbol);
         }
 
-        graph->addEdge(fromSymbol, toSymbol, pair.getPrice());
+        graph->addEdge(fromSymbol, toSymbol, price);
+        graph->addEdge(toSymbol, fromSymbol, 1.0/price);
     }
 }
 
