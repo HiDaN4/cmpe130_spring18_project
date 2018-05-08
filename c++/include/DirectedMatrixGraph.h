@@ -1,6 +1,4 @@
-//
-// Created by Mian Hashim Shah on 4/25/18.
-//
+/*This class is a directed version of the Matrix graph. It inherits from the UndirectedMatrixGraph*/
 
 #ifndef CMPE130PROJECT_DIRECTEDMATRIXGRAPH_H
 #define CMPE130PROJECT_DIRECTEDMATRIXGRAPH_H
