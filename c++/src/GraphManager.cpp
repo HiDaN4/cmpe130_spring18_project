@@ -6,18 +6,23 @@
 #include <queue>
 #include <limits>
 #include <unordered_map>
+#include <stack>
 
 #include "../include/GraphManager.h"
 #include "../include/CurrencyPairParser.h"
+#include "UndirectedMatrixGraph.h"
 
 GraphManager::GraphManager(const std::string nameOfExchange, Graph<std::string> *graph, CurrencyPairParser* pairParser):
-        nameOfExchange(nameOfExchange), lastUpdateTimestamp(0), graph(graph), parser(pairParser)
-{
-}
+        nameOfExchange(nameOfExchange), lastUpdateTimestamp(0), graph(graph), parser(pairParser) { }
+
+
 
 std::string GraphManager::getNameOfExchange() const {
     return nameOfExchange;
 }
+
+
+
 
 unsigned int GraphManager::getLastUpdateTimestamp() const {
     return lastUpdateTimestamp;
@@ -35,8 +40,8 @@ void GraphManager::updateGraph(const std::string fileName) {
         return;
     }
 
-    // reset the contents of the graph
-    graph->reset();
+    // if for the first time graph is empty, we will need to add vertices while parsing pairs
+    bool shouldAddVertices = graph->isEmpty();
 
     // temp values to store parsed symbols
     std::string fromSymbol;
@@ -48,43 +53,35 @@ void GraphManager::updateGraph(const std::string fileName) {
         toSymbol = pair.getToSymbol();
 
         // update the graph
-        graph->addVertex(fromSymbol);
-        graph->addVertex(toSymbol);
+        if (shouldAddVertices) {
+            graph->addVertex(fromSymbol);
+            graph->addVertex(toSymbol);
+        }
+
         graph->addEdge(fromSymbol, toSymbol, pair.getPrice());
     }
 
 }
 
+
+
+
 std::list<CurrencyPair> GraphManager::findBestExchangeRoute(const std::string fromCurrency, const std::string toCurrency) const {
-    // stub
-    // TODO: implement
-    //    auto value_type = graph->getType();
-    typedef std::pair<double, std::string> graphPair;
-    typedef std::vector<CurrencyPair> currencyPairVector;
 
-    int vertices = graph->getNumberOfVertices();
-    double dist[vertices][vertices];
+    if (auto * matrixGraph = dynamic_cast<UndirectedMatrixGraph<std::string>*>(graph.get())) {
+        auto dists = matrixGraph->computeShortestDistanceBetweenVertices(fromCurrency, toCurrency);
 
-    for (int i = 0; i < vertices; ++i) {
+        if (!dists.empty()) {
+            std::cout << "\nPairs:\n";
+            for (auto& pair : dists)
+                std::cout << pair;
+            std::cout << "\n";
+        } else {
+            std::cout << "No path found!\n";
+        }
 
     }
-
-    std::priority_queue<graphPair, std::vector<graphPair>, std::greater<> > priorityQueue;
-
-//    std::vector<graphPair> dist(graph->getNumberOfVertices(), std::make_pair(std::numeric_limits<double >::max(), ""));
-
-    std::unordered_map< std::string, std::list<CurrencyPair> > hashTable(graph->getNumberOfVertices());
-
-    priorityQueue.push(std::make_pair(0.0, fromCurrency));
-
-    hashTable[fromCurrency] = std::list<CurrencyPair>();
-    hashTable[fromCurrency].push_back(CurrencyPair(fromCurrency, fromCurrency, 0.0));
-
-    auto mlist = hashTable[fromCurrency];
-    for (auto &it : mlist) {
-        std:cout << it << "\n";
-    }
-
 
     return std::list<CurrencyPair>();
 }
+

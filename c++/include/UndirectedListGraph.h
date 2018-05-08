@@ -9,23 +9,17 @@
 #include <vector>
 #include <sstream>
 
-
 template <class T>
 class Node;
 
 template <class T>
-class ListGraphVertex
+class ListGraphVertex: public Vertex<T>
 {
 private:
     std::forward_list<Node<T> > listOfNodes;
-    T value;
-public:
-    explicit ListGraphVertex(T val)
-    {
-        value = val;
-    }
 
-    T getValue() const { return value; }
+public:
+    explicit ListGraphVertex(T val): Vertex<T>(val) { }
 
     typename std::forward_list<Node<T> >::const_iterator getListIteratorBegin() const {
         return listOfNodes.begin();
@@ -44,11 +38,11 @@ public:
     }
 
     bool operator==(const ListGraphVertex& rhs) const {
-        return this->value == rhs.value;
+        return this->getValue() == rhs.getValue();
     }
 
     friend std::ostream& operator<<(std::ostream& ost, const ListGraphVertex& obj) {
-        ost << "Vertex '" << obj.value << "'";
+        ost << "Vertex '" << obj.getValue() << "'";
         return ost;
     }
 };
@@ -98,7 +92,7 @@ public:
     virtual double getWeight (const T& fromValue, const T& toValue);
     virtual std::string toString();    //rough display function which displays the edges between vertices.
 
-    virtual int lookUpVertex(const T &value);
+    virtual int lookUpVertex(const T &value) const;
 
     // function to remove all vertices in the graph
     virtual void reset();

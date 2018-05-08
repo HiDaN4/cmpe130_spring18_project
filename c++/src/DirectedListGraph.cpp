@@ -44,12 +44,13 @@ void DirectedListGraph<T>::removeEdge(const T &fromValue, const T &toValue)
 }
 
 template <class T>
-string DirectedListGraph<T>::toString() {
+std::string DirectedListGraph<T>::toString() {
     return UndirectedListGraph<T>::toString();
 }
 
 template <class T>
-int DirectedListGraph<T>::lookUpVertex(const T &value)
+int DirectedListGraph<T>::lookUpVertex(const T &value) const
 {
     return UndirectedListGraph<T>::lookUpVertex(value);
 }
+

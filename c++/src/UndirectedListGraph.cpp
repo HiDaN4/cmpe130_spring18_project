@@ -71,7 +71,7 @@ double UndirectedListGraph<T>::getWeight(const T &fromValue, const T &toValue)
 }
 
 template <class T>
-int UndirectedListGraph<T>::lookUpVertex(const T &value)
+int UndirectedListGraph<T>::lookUpVertex(const T &value) const
 {
     for (int i = 0; i < totalNumberOfVertices; i ++) // loop through entire vector
     {
@@ -81,21 +81,21 @@ int UndirectedListGraph<T>::lookUpVertex(const T &value)
         }
     }
 
-    cout << __FUNCTION__ << ": Vertex not found for " << value << "\n";
+    std::cout << __FUNCTION__ << ": Vertex not found for " << value << "\n";
     return -1;
 }
 
 
 template <class T>
-string UndirectedListGraph<T>::toString()
+std::string UndirectedListGraph<T>::toString()
 {
-    stringstream buffer;
+    std::stringstream buffer;
     unsigned int count = 1;
     for (auto row = adjList.begin(); row != adjList.end(); ++row) {
-        buffer << "#" << to_string(count++) << " - ";
+        buffer << "#" << std::to_string(count++) << " - ";
         buffer << *row << "\n";
         for (auto it = row->getListIteratorBegin(); it != row->getListIteratorEnd(); ++it) {
-            buffer << string(6, ' ');
+            buffer << std::string(6, ' ');
             buffer << "- ";
             buffer << *it;
             buffer << "\n";
