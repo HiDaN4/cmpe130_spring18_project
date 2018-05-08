@@ -42,7 +42,7 @@ void DirectedMatrixGraph<T>::removeEdge(const T &fromValue, const T &toValue)
     if (fromIndex != -1 && toIndex != -1) {
         //check to see if edge doesnt exist between vertices
         if (adjMatrix[fromIndex][toIndex] == 0) {
-            cout << __FUNCTION__ << ": Edge does not exist.. Nothing to do here" << endl;
+            std::cout << __FUNCTION__ << ": Edge does not exist.. Nothing to do here" << "\n";
             return;
         }
 
@@ -52,7 +52,7 @@ void DirectedMatrixGraph<T>::removeEdge(const T &fromValue, const T &toValue)
 }
 
 template<class T>
-int DirectedMatrixGraph<T>::lookUpVertex(const T &value)
+int DirectedMatrixGraph<T>::lookUpVertex(const T &value) const
 {
     return UndirectedMatrixGraph<T>::lookUpVertex(value);
 }
@@ -64,13 +64,14 @@ double DirectedMatrixGraph<T>::getWeight(const T &fromValue, const T &toValue)
 }
 
 template<class T>
-vector<Vertex<T>> DirectedMatrixGraph<T>::getNeighbors(const T &targetCoin)
+std::vector< Vertex<T> > DirectedMatrixGraph<T>::getNeighbors(const T &targetCoin)
 {
     return UndirectedMatrixGraph<T>::getNeighbors(targetCoin);
 }
 
 template<class T>
-string DirectedMatrixGraph<T>::toString()
+std::string DirectedMatrixGraph<T>::toString()
 {
     return UndirectedMatrixGraph<T>::toString();
 }
+

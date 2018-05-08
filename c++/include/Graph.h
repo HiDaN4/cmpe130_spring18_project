@@ -9,7 +9,6 @@
 #include <string>
 #include <ostream>
 
-using namespace std;
 
 //Vertex class which defines a vertex which holds an ID and a Value (which is a template)
 template <class T>
@@ -66,6 +65,12 @@ public:
         return this->value == b.value;
     }
 
+
+    bool operator==(const T& objType)
+    {
+        return this->value == objType;
+    }
+
     friend std::ostream&operator << (std::ostream& stream, const Vertex<T> obj) {
         stream << obj.value;
         return stream;
@@ -76,6 +81,9 @@ public:
 template <class T>
 int Vertex<T>::vertexIDCounter = 0;
 
+
+
+
 //Abstract graph class inherited by
 //1. UndirectedMatrixGraph
 //2. UndirectedListGraph
@@ -85,7 +93,11 @@ class Graph
 protected:
     unsigned int totalNumberOfVertices; //number of vertices
 
-    virtual int lookUpVertex(const T& value) = 0;
+    /* Return the index of given value in the graph
+     *
+     * If the value is not in the graph, return -1
+     * */
+    virtual int lookUpVertex(const T& value) const = 0;
 
 public:
 
@@ -112,9 +124,12 @@ public:
     // function to remove all vertices in the graph
     virtual void reset() = 0;
 
-    //display function which displays the edges between vertices.
-    virtual string toString() = 0;
+    virtual bool isEmpty() const {
+        return totalNumberOfVertices == 0;
+    }
 
+    //display function which displays the edges between vertices.
+    virtual std::string toString() = 0;
 };
 
 

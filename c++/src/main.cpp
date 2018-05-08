@@ -1,68 +1,44 @@
+// std
 #include <iostream>
 #include<vector>
 
-
+// custom classes
 #include "Graph.h"
 #include "UndirectedMatrixGraph.h"
 #include "DirectedMatrixGraph.h"
-
 #include "UndirectedListGraph.h"
 #include "DirectedListGraph.h"
-
+#include "CurrencyPairParser.h"
 #include "GraphManager.h"
 
-using namespace std;
+
+const std::string kInputFilename = "test.csv";
+
 
 int main()
 {
-    //Graph<string> * graph1 = new UndirectedListGraph<string>();
-    Graph<string> * graph2 = new DirectedListGraph<string>();
+    auto * graph = new DirectedMatrixGraph<std::string>();
 
-    UndirectedMatrixGraph<string> * graph1 = new UndirectedMatrixGraph<string>();
-
-    graph1->addVertex("BTC");
-    graph1->addVertex("XRP");
-    graph1->addVertex("BYTE");
-    graph1->addVertex("BTCN");
-
-    graph1->addEdge("BTC", "XRP", 5);
-    graph1->addEdge("BTC", "BTCN", 15);
-    graph1->addEdge("BTC", "BYTE", 10);
-    graph1->addEdge("BYTE", "XRP", 20);
-
-    cout << graph1->toString();
-    auto res = graph1->getNeighbors("BTCNs");
-
-
-    for (auto it = res.begin(); it != res.end(); ++it) {
-        cout << *it << "\n";
-    }
-
-//    cout << graph1->toString();
-
-
-//    graph2->addVertex("BTC");
-//    graph2->addVertex("XRP");
-//    graph2->addVertex("BYTE");
-//    graph2->addVertex("BTCN");
+//    graph->addVertex("BTC");
+//    graph->addVertex("XRP");
+//    graph->addVertex("BYTE");
+//    graph->addVertex("BTCN");
 //
-//    graph2->addEdge("BTC", "XRP", 5);
-//    graph2->addEdge("BTC", "BTCN", 15);
-//    graph2->addEdge("BTC", "BYTE", 10);
-//    graph2->addEdge("BYTE", "XRP", 20);
-//    cout << graph2->toString();
-//
-//    graph2->removeEdge("BTC", "XRP");
-//    cout << "\n***\n" << graph2->toString() ;
-//
-//    graph2->removeEdge("XRP", "BTC");
-//    cout << "\n***\n" << graph2->toString() ;
+//    graph->addEdge("BTC", "XRP", 5);
+//    graph->addEdge("BTC", "BTCN", 19);
+//    graph->addEdge("XRP", "BYTE", 10);
+//    graph->addEdge("BYTE", "BTC", 20);
 
+    // construct the manager that we use throughout the program
+    GraphManager manager("Best Exchange Co.", graph, new CurrencyPairParser());
 
-    GraphManager manager("Test", graph1);
+    // make a graph from file
+    manager.updateGraph(kInputFilename);
 
-    manager.findBestExchangeRoute("BTC", "XRP");
+    std::cout << "Printing the graph...\n";
+    std::cout << graph->toString();
 
+    manager.findBestExchangeRoute("BTC", "TIME");
 
     return 0;
 }
