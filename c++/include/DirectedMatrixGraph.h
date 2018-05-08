@@ -90,6 +90,9 @@ public:
     // @param: none
     virtual std::string toString();
 
+
+    virtual std::list<CurrencyPair> getShortestPairsBetween(const T& from, const T& to) const;
+
 };
 
 #include "DirectedMatrixGraph.cpp"

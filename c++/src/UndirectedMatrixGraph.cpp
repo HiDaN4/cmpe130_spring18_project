@@ -165,7 +165,7 @@ int UndirectedMatrixGraph<T>::lookUpVertex(const T& value) const
 //@param: const T &fromValue, const T &toValue
 //returns double in the form of the weight
 template <class T>
-double UndirectedMatrixGraph<T>::getWeight(const T &fromValue, const T &toValue)
+double UndirectedMatrixGraph<T>::getWeight(const T &fromValue, const T &toValue) const
 {
     int fromIndex = lookUpVertex(fromValue);
     int toIndex = lookUpVertex(toValue);
@@ -374,14 +374,17 @@ std::list<CurrencyPair> UndirectedMatrixGraph<T>::computeShortestDistanceBetween
                     // save the distance in the matrix
                     dists[sourceVertex][destinationVertex] = dists[sourceVertex][intermediateVertex] + dists[intermediateVertex][destinationVertex];
 
+//                    if (vertexList[sourceVertex].getValue() == from && vertexList[destinationVertex].getValue() == to) {
+//                        std::cout << "[" << vertexList[sourceVertex].getValue() << "]"
+//                                  << " - [" << vertexList[intermediateVertex].getValue() << "]"
+//                                  << " - [" << vertexList[destinationVertex].getValue() << "]\n";
+//                    }
+
                     // and put the pair into the queue
                     if (vertexList[sourceVertex].getValue() == from) {
                         auto fromS = vertexList[sourceVertex].getValue();
                         auto intermidS = vertexList[intermediateVertex].getValue();
                         auto destS = vertexList[destinationVertex].getValue();
-
-                        std::cout << "Value: " <<  dists[sourceVertex][intermediateVertex] << "\n";
-
 
                         consideredPairs.emplace(fromS, intermidS, dists[sourceVertex][intermediateVertex]);
                         consideredPairs.emplace(intermidS, destS, dists[intermediateVertex][destinationVertex]);
@@ -462,3 +465,159 @@ std::list<CurrencyPair> UndirectedMatrixGraph<T>::computeShortestDistanceBetween
 
     return pairs;
 }
+
+
+
+
+template<class T>
+void UndirectedMatrixGraph<T>::constructPath(int parent[], int j, std::list<T>& path) const {
+    // Base Case : If j is source
+    if (parent[j] == - 1)
+        return;
+
+    this->constructPath(parent, parent[j], path);
+
+    path.push_back(vertexList[j].getValue());
+}
+
+
+
+template<class T>
+int UndirectedMatrixGraph<T>::minDistance(const double *dist, const bool *sptSet, int V) const {
+    // initialize min value
+    double min = INF;
+    int min_index = 0;
+
+    for (int v = 0; v < V; v++)
+        if (!sptSet[v] && dist[v] <= min)
+            min = dist[v], min_index = v;
+
+    return min_index;
+}
+
+
+
+
+
+
+template<class T>
+std::list<CurrencyPair> UndirectedMatrixGraph<T>::getShortestPairsBetween(const T& from, const T& to) const {
+    // list with pairs of currencies that we return
+    std::list<CurrencyPair> pairs;
+
+    // find the index of searched values in the graph
+    const int src = lookUpVertex(from);
+    const int dest = lookUpVertex(to);
+
+    // if the source or destination vertex is not in the graph, we just return empty list
+    if (src == -1 || dest == -1)
+        return pairs;
+
+
+    // V - number of vertices
+    int V = this->getNumberOfVertices();
+
+    // array distances[] will hold the shortest distance from source to all vertices
+    double distances[V];
+
+
+    // shortestPathTreeVisited[i] will be true if vertex i is included in shortest distance
+    // from src to i
+    bool shortestPathTreeVisited[V];
+
+    // store shortest path tree
+    int parentVertexArray[V];
+
+    // initialize
+    for (int i = 0; i < V; i++)
+    {
+        parentVertexArray[src] = -1;
+        distances[i] = INF;
+        shortestPathTreeVisited[i] = false;
+    }
+
+    // distance of source vertex from itself is 0
+    distances[src] = 0;
+
+    // find shortest path for all vertices
+    for (int count = 0; count < V - 1; count++) {
+        // choose the minimum distance vertex from the set of
+        // vertices that are not touched.
+        int k = this->minDistance(distances, shortestPathTreeVisited, V);
+
+        // mark this chosen vertex as processed
+        shortestPathTreeVisited[k] = true;
+
+        // Update the distance value of the adjacent vertices of the chosen vertex.
+        for (int v = 0; v < V; v++)
+
+            // Update distances[v] iff is not in shortestPathTreeVisited, and there is an edge from k to v, and
+            // total weight of path from src to v through k is smaller than current value of
+            // distances[v]
+            if (!shortestPathTreeVisited[v] && adjMatrix[k][v] &&
+                distances[k] + adjMatrix[k][v] < distances[v]) {
+                distances[v] = distances[k] + adjMatrix[k][v];
+                parentVertexArray[v] = k;
+            }
+    }
+
+
+    // list that represents the paths to take
+    std::list<T> path;
+
+
+    // printing
+//    std::cout << "\n\nFound path:\n";
+//    std::cout << vertexList[src].getValue() << " -> " << vertexList[dest].getValue() << ":\n";
+
+    // save the first starting source vertex to the path
+    path.push_back(vertexList[src].getValue());
+
+    // call recursive method to construct the path
+    this->constructPath(parentVertexArray, dest, path);
+
+    // temp values to store symbols and costs
+    std::string symbol1, symbol2;
+    double cost = 0;
+
+    // iterate over the list and store the values into the temp variables
+    // since pairs are represented like: "S" -> "K"
+    // we might have a path list like: "S T R"
+    // Thus, the appropriate pairs are: "S" -> "T" and "T" -> "R"
+    for (auto it = path.begin(); it != path.end(); ) {
+        if (symbol1 == "") {
+            symbol1 = *it;
+            ++it;
+        }
+        else if (symbol2 == "") {
+            symbol2 = *it;
+            ++it;
+        }
+        else {
+            // at this point, we have 2 symbols, so we need to find the cost and put a new currency pair
+            // into the list of pairs
+            cost = getWeight(symbol1, symbol2);
+            pairs.emplace_back(symbol1, symbol2, cost);
+
+            // reset values
+            symbol1 = symbol2 = "";
+            cost = 0;
+            // back track the iterator pointer by 1
+            --it;
+        }
+    }
+
+    // insert the last currency pair from the path list
+    if (symbol1 != "" && symbol2 != "") {
+        cost = getWeight(symbol1, symbol2);
+        pairs.emplace_back(symbol1, symbol2, cost);
+    }
+
+    return pairs;
+}
+
+
+
+
+
+

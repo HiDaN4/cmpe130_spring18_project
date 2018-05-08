@@ -28,6 +28,12 @@ protected:
     std::vector< std::vector<double> > adjMatrix;
 
 
+    void constructPath(int parent[], int j, std::list<T>& path) const;
+
+    int minDistance(const double dist[],
+                    const bool sptSet[], int V) const;
+
+
 public:
     // Default Constructor
     UndirectedMatrixGraph();
@@ -83,7 +89,7 @@ public:
     //1. safe check if the passed vertices are valid, and gets the indices of the vertex
     //2. returns the weight or index of the adjgraph at the two vertex indices
     //3. otherwise return -1 if function fails
-    virtual double getWeight(const T& fromValue, const T& toValue);
+    virtual double getWeight(const T& fromValue, const T& toValue) const;
 
     //This function returns the neighbors of a specified vertex
     // @param: const T& targetCoin
@@ -117,7 +123,12 @@ public:
 
     virtual std::list<CurrencyPair> computeShortestDistanceBetweenVertices(const T& from, const T& to) const;
 
+    virtual std::list<CurrencyPair> getShortestPairsBetween(const T& from, const T& to) const;
+
+
 };
+
+
 
 
 #include "UndirectedMatrixGraph.cpp"
