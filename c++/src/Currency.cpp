@@ -24,4 +24,10 @@ std::string Currency::getSymbol() const
 bool Currency::operator==(const Currency& lhs)
 {
     return this->symbol == lhs.symbol;
+} 
+
+std::ostream& operator<< (std::ostream& stream, const Currency& currency)
+{
+    stream << "Name: " << currency.getName() << " Symbol: " << currency.getSymbol();
+    return stream;
 }
