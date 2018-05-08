@@ -59,12 +59,13 @@ block content
             h3(style='margin-top:0;') Result
             p You need #{srcAmount} #{src} for #{destAmount} of #{dest}.
               br 
-              - if (directSrcAmount != 0) {
-                | Converting directly would cost #{directSrcAmount} #{src} for #{destAmount} of #{dest}
-              - } else {
-                | There is no direct way to convert #{src} to #{dest} on the exchange.
+              - if (tradesArray.length != 1) {
+                - if (directSrcAmount != 0) {
+                  | Converting directly would cost #{directSrcAmount} #{src} for #{destAmount} of #{dest}
+                - } else {
+                  | There is no direct way to convert #{src} to #{dest} on the exchange.
+                - }
               - }
-              
             p The set of trades results in maximized gains:
               br
               ol
