@@ -130,12 +130,11 @@ NAN_METHOD(GraphManagerInterface::findBestExchangeRoute)
     
 
     // Convert pairs list to a string representation
-    std::string pairsString;
     unsigned i = 0;
     for (auto it = pairs.cbegin(); it != pairs.cend(); ++it)
     {
         std::cout << *it << std::endl;
-        pairsString += it->getFromSymbol() + "," + it->getToSymbol() + "," + std::to_string(it->getPrice());
+        std::string pairsString = it->getFromSymbol() + "," + it->getToSymbol() + "," + std::to_string(it->getPrice());
 
         // Convert std::string to v8::String type
         v8::Local<v8::String> v8PairsString = v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), pairsString.c_str());
