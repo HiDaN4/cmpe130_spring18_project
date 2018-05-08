@@ -17,7 +17,6 @@ class CurrencyPairParser {
 private:
     // Utilities
     CurrencyPair parseLine(const std::string&);
-    std::list<CurrencyPair> parseCurrenciesString(const std::string&);
 
 public:
     // Default Constructor (nothing to initialize)

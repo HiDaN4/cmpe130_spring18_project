@@ -75,3 +75,8 @@ std::string DirectedMatrixGraph<T>::toString()
     return UndirectedMatrixGraph<T>::toString();
 }
 
+
+template<class T>
+std::list<CurrencyPair> DirectedMatrixGraph<T>::getShortestPairsBetween(const T &from, const T &to) const {
+    return UndirectedMatrixGraph<T>::getShortestPairsBetween(from, to);
+}

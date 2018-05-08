@@ -61,6 +61,10 @@ void GraphManager::updateGraph(const std::string fileName) {
             graph->addVertex(toSymbol);
         }
 
+        if (fromSymbol == "USD" && toSymbol == "ZEC") {
+            std::cout << "";
+        }
+
         graph->addEdge(fromSymbol, toSymbol, price);
         graph->addEdge(toSymbol, fromSymbol, 1.0/price);
     }
@@ -75,8 +79,9 @@ void GraphManager::updateGraph(const std::string fileName) {
  * @return - the list of optimal currency pairs that will result in least amount of fees. If no pairs found, return empty list
  */
 std::list<CurrencyPair> GraphManager::findBestExchangeRoute(const std::string fromCurrency, const std::string toCurrency) const {
-    std::list<CurrencyPair> pairs;
-    pairs = graph->computeShortestDistanceBetweenVertices(fromCurrency, toCurrency);
+    std::list<CurrencyPair> pairs = graph->getShortestPairsBetween(fromCurrency, toCurrency);
+
+//    pairs = graph->computeShortestDistanceBetweenVertices(fromCurrency, toCurrency);
 
     if (!pairs.empty()) {
         std::cout << "\nPairs:\n";
@@ -84,7 +89,7 @@ std::list<CurrencyPair> GraphManager::findBestExchangeRoute(const std::string fr
             std::cout << pair;
         std::cout << "\n";
     } else {
-        std::cout << "No path found!\n";
+        std::cout << "No pairs found!\n";
     }
 
     return pairs;

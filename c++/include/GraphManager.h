@@ -44,6 +44,7 @@ public:
      */
     std::list<CurrencyPair> findBestExchangeRoute(std::string fromCurrency, std::string toCurrency) const;
 
+
 };
 
 

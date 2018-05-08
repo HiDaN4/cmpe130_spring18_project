@@ -145,6 +145,9 @@ public:
 
     virtual std::list<CurrencyPair> computeShortestDistanceBetweenVertices(const T& from, const T& to) const = 0;
 
+
+    virtual std::list<CurrencyPair> getShortestPairsBetween(const T& from, const T& to) const = 0;
+
 };
 
 
