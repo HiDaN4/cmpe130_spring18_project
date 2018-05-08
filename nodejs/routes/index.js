@@ -50,7 +50,7 @@ router.get('/', function(req, res, next) {
     })
   }).then(function(currenciesMap) {
 
-    if (req.query.src && req.query.dest) {
+    if (req.query.src && req.query.dest && req.query.amount) {
       if (req.query.src == req.query.dest) {
         console.log("Error: Src & Dest cannot be the same");
         res.render('index', { title: 'Kryptos' , hasResult: false, currenciesMap: currenciesMap, tradesArray: tradesArray});
@@ -70,7 +70,20 @@ router.get('/', function(req, res, next) {
           tradesArray = graphManager.findBestExchangeRoute(req.query.src, req.query.dest);
           console.log(tradesArray);
 
-          res.render('index', { title: 'Kryptos' , hasResult: true, currenciesMap: currenciesMap, tradesArray: tradesArray});
+          var calculatedSourceAmount = req.query.amount;
+
+          tradesArray.forEach(function(element) {
+            let tradePair = element.split(',')
+            calculatedSourceAmount *= tradePair[2];
+          });
+
+          if (calculatedSourceAmount > 10.0) {
+            calculatedSourceAmount = calculatedSourceAmount.toFixed(4);
+          }
+
+          console.log(calculatedSourceAmount);
+
+          res.render('index', { title: 'Kryptos' , hasResult: true, currenciesMap: currenciesMap, tradesArray: tradesArray, src: req.query.src, dest: req.query.dest, srcAmount: calculatedSourceAmount ,destAmount: req.query.amount});
 
         }).catch(error => console.log(error));
        }
