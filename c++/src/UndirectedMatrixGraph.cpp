@@ -334,6 +334,10 @@ std::list<CurrencyPair> UndirectedMatrixGraph<T>::computeShortestDistanceBetween
     // list with pairs of currencies that we return
     std::list<CurrencyPair> pairs;
 
+    // Pairs found by the all-pairs shortest algorithm
+    // TODO: Rename consideredPairs to a more appropriate identifier
+    std::stack<CurrencyPair> consideredPairs;
+
     // first check if vertices with given values exist in the graph
     const int sourceIndex = lookUpVertex(from);
     const int destIndex = lookUpVertex(to);
@@ -371,7 +375,7 @@ std::list<CurrencyPair> UndirectedMatrixGraph<T>::computeShortestDistanceBetween
                     dists[sourceVertex][destinationVertex] = dists[sourceVertex][intermediateVertex] + dists[intermediateVertex][destinationVertex];
 
                     // and put the pair into the queue
-                    if (vertexList[destinationVertex].getValue() == to) {
+                    if (vertexList[sourceVertex].getValue() == from) {
                         auto fromS = vertexList[sourceVertex].getValue();
                         auto intermidS = vertexList[intermediateVertex].getValue();
                         auto destS = vertexList[destinationVertex].getValue();
@@ -379,14 +383,72 @@ std::list<CurrencyPair> UndirectedMatrixGraph<T>::computeShortestDistanceBetween
                         std::cout << "Value: " <<  dists[sourceVertex][intermediateVertex] << "\n";
 
 
-                        pairs.emplace_back(fromS, intermidS, dists[sourceVertex][intermediateVertex]);
-                        pairs.emplace_back(intermidS, destS, dists[intermediateVertex][destinationVertex]);
+                        consideredPairs.emplace(fromS, intermidS, dists[sourceVertex][intermediateVertex]);
+                        consideredPairs.emplace(intermidS, destS, dists[intermediateVertex][destinationVertex]);
                     }
                 }
             }
         }
+
+
     }
 
+    // Parse through the stack of pairs
+
+    // prevSource and prevDestination keeps track of the from & to symbols from the previous loop iteration
+    // They're used to keep track of the pattern of pairs
+    auto prevSource = from;
+    auto prevDestination = to;
+
+    // Ensures that the pair being checked is relevant to the shortest path
+    bool isRelevant = true;
+
+
+    // Holds a temporary stack that stores what will become the list of pairs
+    std::stack<CurrencyPair> temp;
+    while (!consideredPairs.empty()) {
+        auto pair = consideredPairs.top();
+        consideredPairs.pop();
+        
+
+        // Check if the pair belongs in the shortest path
+        if ((prevSource == pair.getFromSymbol() ||
+            prevSource == pair.getToSymbol() || 
+            prevDestination == pair.getFromSymbol() ||
+            prevDestination == pair.getToSymbol()) &&
+            isRelevant
+            ) 
+        {
+            temp.push(pair);
+        } 
+        else 
+            isRelevant = false;
+
+        if(pair.getFromSymbol() == from && pair.getToSymbol() == to) {
+            // Empty the temp stack
+            while (!temp.empty())
+                temp.pop();
+            
+            isRelevant = true;
+        }
+
+        prevSource = pair.getFromSymbol();
+        prevDestination = pair.getToSymbol();
+    }
+
+    // Insert temp stack into pairs list
+    int topIndex = temp.size();
+    while(temp.size() > 0) {
+        CurrencyPair pair = temp.top();
+
+        if ((pair.getFromSymbol() == from && temp.size() != topIndex) || pair.getToSymbol() == to && temp.size() > 1) {
+
+        } else {
+            pairs.push_back(pair);
+        }
+
+        temp.pop();
+    }
 
     // if we found pairs, we should return it now
     if (!pairs.empty())

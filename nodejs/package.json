@@ -14,7 +14,8 @@
     "morgan": "~1.9.0",
     "nan": "^2.10.0",
     "node-gyp": "^3.6.2",
-    "pug": "2.0.0-beta11"
+    "pug": "2.0.0-beta11",
+    "request": "^2.85.0"
   },
   "gypfile": true
 }

@@ -67,21 +67,18 @@ void GraphManager::updateGraph(const std::string fileName) {
 
 
 std::list<CurrencyPair> GraphManager::findBestExchangeRoute(const std::string fromCurrency, const std::string toCurrency) const {
+    std::list<CurrencyPair> pairs;
+    pairs = graph->computeShortestDistanceBetweenVertices(fromCurrency, toCurrency);
 
-    if (auto * matrixGraph = dynamic_cast<UndirectedMatrixGraph<std::string>*>(graph.get())) {
-        auto dists = matrixGraph->computeShortestDistanceBetweenVertices(fromCurrency, toCurrency);
-
-        if (!dists.empty()) {
-            std::cout << "\nPairs:\n";
-            for (auto& pair : dists)
-                std::cout << pair;
-            std::cout << "\n";
-        } else {
-            std::cout << "No path found!\n";
-        }
-
+    if (!pairs.empty()) {
+        std::cout << "\nPairs:\n";
+        for (auto& pair : pairs)
+            std::cout << pair;
+        std::cout << "\n";
+    } else {
+        std::cout << "No path found!\n";
     }
 
-    return std::list<CurrencyPair>();
+    return pairs;
 }
 

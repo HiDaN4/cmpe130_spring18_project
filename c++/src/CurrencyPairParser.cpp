@@ -46,7 +46,7 @@ std::list<CurrencyPair> CurrencyPairParser::parseFileAndGetListOfCurrencies(cons
             std::string tempStr;
             std::getline(inputFile, tempStr);
 
-            if (tempStr.length() > 0)
+            if(tempStr.length() > 0)
                 newList.push_back(parseLine(tempStr));
         }
 
