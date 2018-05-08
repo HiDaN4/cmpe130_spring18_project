@@ -148,18 +148,11 @@ exports.writeNewCurrencyDataToFile = function(filename, _callback) {
         {
             data.forEach(function(tickerData, symbol) {
 
-                // console.log(tickerData.get('quoteCurrency'));
-                // console.log(tickerData.get('baseCurrency'));
-                // console.log(tickerData.get('last'));
-
-                // console.log('\n');
                 let dataToWrite = `${tickerData.get('quoteCurrency')},${tickerData.get('baseCurrency')},${tickerData.get('last')}\n`;
 
-                fs.appendFile(filename, dataToWrite, function(err) {
-                    if(err)
-                        _callback(err);
-                })
+                fs.appendFileSync(filename, dataToWrite);
             });
+            console.log("Done");
 
             _callback(null);
         }
