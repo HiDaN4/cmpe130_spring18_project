@@ -1,7 +1,7 @@
 CXX = c++
 CXXFLAGS = -Wall -Wextra -g -std=c++11 -O0 -Iinclude -Isrc
 LDFLAGS =
-OBJ = $(OBJFOLDER)/Currency.o $(OBJFOLDER)/CurrencyCalculator.o $(OBJFOLDER)/CurrencyPair.o $(OBJFOLDER)/CurrencyPairParser.o $(OBJFOLDER)/DirectedListGraph.o $(OBJFOLDER)/DirectedMatrixGraph.o $(OBJFOLDER)/UndirectedListGraph.o $(OBJFOLDER)/UndirectedMatrixGraph.o $(OBJFOLDER)/Graph.o $(OBJFOLDER)/GraphManager.o
+OBJ = $(OBJFOLDER)/Currency.o $(OBJFOLDER)/CurrencyCalculator.o $(OBJFOLDER)/CurrencyPair.o $(OBJFOLDER)/CurrencyPairParser.o $(OBJFOLDER)/DirectedMatrixGraph.o $(OBJFOLDER)/UndirectedMatrixGraph.o $(OBJFOLDER)/Graph.o $(OBJFOLDER)/GraphManager.o
 
 OBJFOLDER = build
 SRCFOLDER = src

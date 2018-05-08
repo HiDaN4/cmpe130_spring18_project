@@ -4,45 +4,80 @@ block content
   div(class='mdl-layout mdl-js-layout')
     main(class='mdl-layout__content')
       div(class='mdl-grid')
-        div(class='mdl-cell mdl-cell--12-col')
+        div(class='mdl-cell mdl-cell--3-col')
+        div(class='mdl-cell mdl-cell--6-col')
           h1(style='margin:0;') #{title}
+        div(class='mdl-cell mdl-cell--3-col')
       div(class='mdl-grid')
-        div(class='mdl-cell mdl-cell--12-col')
+        div(class='mdl-cell mdl-cell--3-col')
+        div(class='mdl-cell mdl-cell--6-col')
           h3(style='margin:0;') Empowering cryptocurrency traders 
+        div(class='mdl-cell mdl-cell--3-col')
       div(class='mdl-grid')
-        div(class='mdl-cell mdl-cell--12-col')
+        div(class='mdl-cell mdl-cell--3-col')
+        div(class='mdl-cell mdl-cell--6-col')
           p Kryptos maximizes realized gains from any cryptocurrency coin to another coin or fiat currency.
-            |  Test out the functionality below.
+            br  
+            | Exchange rates based on HitBTC.
+        div(class='mdl-cell mdl-cell--3-col')
 
       form(action='/', method='get')
         div(class='mdl-grid')
-          div(class='mdl-cell mdl-cell--12-col')
-            div(class='mdl-textfield mdl-js-textfield')
+          div(class='mdl-cell mdl-cell--3-col')
+          div(class='mdl-cell mdl-cell--3-col')
+            div(class='mdl-textfield mdl-js-textfield', style='width:100%;')
               input(class='mdl-textfield__input', type='text', id='src', list='currencies', name='src')
-              label(class='mdl-textfield__label', for='src') Source Currency
+              label(class='mdl-textfield__label', for='src',) Source Currency
               datalist(id='currencies')
                 - currenciesMap.forEach(function(value, key, map) {
-                  option(value=value)
+                  option(value=key, )
                 - })
-        div(class='mdl-grid')
-          div(class='mdl-cell mdl-cell--12-col')
-            div(class='mdl-textfield mdl-js-textfield')
+          div(class='mdl-cell mdl-cell--3-col')
+            div(class='mdl-textfield mdl-js-textfield', style='width:100%;')
               input(class='mdl-textfield__input', type='text', id='dest', list='currencies', name='dest')
               label(class='mdl-textfield__label', for='dest') Destination Currency
+          div(class='mdl-cell mdl-cell--3-col')
+      
         div(class='mdl-grid')
-          div(class='mdl-cell mdl-cell--12-col')
-            input(type='submit', value='submit', class='mdl-button mdl-js-button mdl-button--raised mdl-button--colored')
+          div(class='mdl-cell mdl-cell--3-col')
+          div(class='mdl-cell mdl-cell--6-col')
+            div(class='mdl-textfield mdl-js-textfield', style='width:100%;')
+              input(class='mdl-textfield__input', type='text', id='amount', name='amount')
+              label(class='mdl-textfield__label', for='amount') Desired Destination Currency Amount
+          div(class='mdl-cell mdl-cell--3-col')
+
+        div(class='mdl-grid')
+          div(class='mdl-cell mdl-cell--3-col')
+          div(class='mdl-cell mdl-cell--6-col')
+            input(type='submit', value='compute', class='mdl-button mdl-js-button mdl-button--raised mdl-button--colored')
+          div(class='mdl-cell mdl-cell--3-col')
 
       if hasResult
         div(class='mdl-grid')
-          div(class='mdl-cell mdl-cell--12-col')
-            h3(style='margin:0;') Result
+          div(class='mdl-cell mdl-cell--3-col')
+          div(class='mdl-cell mdl-cell--6-col')
+            h3(style='margin-top:0;') Result
+            p You need #{srcAmount} #{src} for #{destAmount} of #{dest}.
+              br 
+              - if (tradesArray.length != 1) {
+                - if (directSrcAmount != 0) {
+                  | Converting directly would cost #{directSrcAmount} #{src} for #{destAmount} of #{dest}
+                - } else {
+                  | There is no direct way to convert #{src} to #{dest} on the exchange.
+                - }
+              - }
             p The set of trades results in maximized gains:
               br
               ol
-                each key in tradesMap.size
-                  li = `${key} -> ${tradesMap[key]}`
+                - tradesArray.forEach(function(element) {
+                  - let tradePair = element.split(',')
+                  li #{tradePair[0]} -> #{tradePair[1]} -- Exchange Rate: #{tradePair[2]}
+
+                -})
+          div(class='mdl-cell mdl-cell--3-col')
       else
         //- div(class='mdl-grid')
-        //-   div(class='mdl-cell mdl-cell--12-col')
+        //-   div(class='mdl-cell mdl-cell--3-col')
+        //-   div(class='mdl-cell mdl-cell--6-col')
         //-     h3(style='margin:0;') No Result
+        //-   div(class='mdl-cell mdl-cell--3-col')

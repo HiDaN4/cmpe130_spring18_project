@@ -24,11 +24,6 @@ CurrencyPair CurrencyPairParser::parseLine(const std::string& line)
     return CurrencyPair(from, to, price);
 }
 
-std::list<CurrencyPair> CurrencyPairParser::parseCurrenciesString(const std::string& data)
-{
-    
-}
-
 std::list<CurrencyPair> CurrencyPairParser::parseFileAndGetListOfCurrencies(const std::string& fileName)
 {
     std::list<CurrencyPair> newList;
