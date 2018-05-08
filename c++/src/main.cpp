@@ -3,15 +3,12 @@
 #include "UndirectedMatrixGraph.h"
 #include "DirectedMatrixGraph.h"
 
-#include "UndirectedListGraph.h"
-#include "DirectedListGraph.h"
 #include<vector>
 using namespace std;
 
 int main()
 {
-    //Graph<string> * graph1 = new UndirectedListGraph<string>();
-    Graph<string> * graph2 = new DirectedListGraph<string>();
+
 
     UndirectedMatrixGraph<string> * graph1 = new UndirectedMatrixGraph<string>();
 

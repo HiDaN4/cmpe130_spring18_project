@@ -159,6 +159,7 @@ double UndirectedMatrixGraph<T>::getWeight(const T &fromValue, const T &toValue)
 //This function returns the neighbors of a specified vertex
 //@param: const T& targetCoin
 //returns list of neighbors to the targetCoin
+template <class T>
 vector<Vertex<T>> UndirectedMatrixGraph<T>::getNeighbors(const T &targetCoin)
 {
     vector<Vertex<T>> listOfNeighbors;//create a list
