@@ -17,7 +17,6 @@ class CurrencyPairParser;
 class GraphManager {
 private:
     const std::string nameOfExchange;
-    unsigned int lastUpdateTimestamp;
     std::unique_ptr<Graph<std::string>> graph;
     std::unique_ptr<CurrencyPairParser> parser;
 
@@ -27,10 +26,22 @@ public:
 
     // Getters
     std::string getNameOfExchange() const;
-    unsigned int getLastUpdateTimestamp() const;
 
-    // Methods
+
+    /*! updateGraph - populate graph with data from given data
+     *
+     * @param fileName - file with data in format "from,to,price"
+     */
     void updateGraph(std::string fileName);
+
+
+
+    /*! findBestExchangeRoute - return a list with optimal currency pairs to exchange 'fromCurrency' to 'toCurrency'
+     *
+     * @param fromCurrency - symbol name of currency to exchange from
+     * @param toCurrency - symbol name of currency to exchange to
+     * @return - the list of optimal currency pairs that will result in least amount of fees. If no pairs found, return empty list
+     */
     std::list<CurrencyPair> findBestExchangeRoute(std::string fromCurrency, std::string toCurrency) const;
 
 };

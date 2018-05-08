@@ -8,6 +8,10 @@
 #include <iostream>
 #include <string>
 #include <ostream>
+#include <list>
+#include <vector>
+
+class CurrencyPair;
 
 
 //Vertex class which defines a vertex which holds an ID and a Value (which is a template)
@@ -130,6 +134,17 @@ public:
 
     //display function which displays the edges between vertices.
     virtual std::string toString() = 0;
+
+
+
+    /*! computeShortestDistanceBetweenAllVertices - Calculate shortest paths between all vertices using Floyd-Warshall Algorithm
+    *
+    * @return 2D vector with shortest paths between all vertices
+    */
+    virtual std::vector< std::vector<double> > computeShortestDistanceBetweenAllVertices() const = 0;
+
+    virtual std::list<CurrencyPair> computeShortestDistanceBetweenVertices(const T& from, const T& to) const = 0;
+
 };
 
 
