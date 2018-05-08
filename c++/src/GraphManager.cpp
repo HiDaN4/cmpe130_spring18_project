@@ -13,22 +13,23 @@
 #include "UndirectedMatrixGraph.h"
 
 GraphManager::GraphManager(const std::string nameOfExchange, Graph<std::string> *graph, CurrencyPairParser* pairParser):
-        nameOfExchange(nameOfExchange), lastUpdateTimestamp(0), graph(graph), parser(pairParser) { }
+        nameOfExchange(nameOfExchange), graph(graph), parser(pairParser) { }
 
 
-
+/*! getNameOfExchange
+ *
+ * @return - string name of the exchange that is associated with this graph manager
+ */
 std::string GraphManager::getNameOfExchange() const {
     return nameOfExchange;
 }
 
 
 
-
-unsigned int GraphManager::getLastUpdateTimestamp() const {
-    return lastUpdateTimestamp;
-}
-
-
+/*! updateGraph - populate graph with data from given data
+ *
+ * @param fileName - file with data in format "from,to,price"
+ */
 void GraphManager::updateGraph(const std::string fileName) {
 
     // call the parser to obtain the list of currencyPairs
@@ -60,12 +61,16 @@ void GraphManager::updateGraph(const std::string fileName) {
 
         graph->addEdge(fromSymbol, toSymbol, pair.getPrice());
     }
-
 }
 
 
 
-
+/*! findBestExchangeRoute - return a list with optimal currency pairs to exchange 'fromCurrency' to 'toCurrency'
+ *
+ * @param fromCurrency - symbol name of currency to exchange from
+ * @param toCurrency - symbol name of currency to exchange to
+ * @return - the list of optimal currency pairs that will result in least amount of fees. If no pairs found, return empty list
+ */
 std::list<CurrencyPair> GraphManager::findBestExchangeRoute(const std::string fromCurrency, const std::string toCurrency) const {
     std::list<CurrencyPair> pairs;
     pairs = graph->computeShortestDistanceBetweenVertices(fromCurrency, toCurrency);
