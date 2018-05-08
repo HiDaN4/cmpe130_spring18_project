@@ -45,6 +45,16 @@ public:
     std::list<CurrencyPair> findBestExchangeRoute(std::string fromCurrency, std::string toCurrency) const;
 
 
+
+    /*! getCostForExchange - return the cost of exchanging 2 currencies
+     *
+     * @param fromCurrency - source currency
+     * @param toCurrency - destination currency
+     * @return - double cost of exchanging 2 given currencies. If there is no cost in the graph for these currencies,
+     *          return 0.
+     */
+    double getCostForExchange(std::string fromCurrency, std::string toCurrency) const;
+
 };
 
 
