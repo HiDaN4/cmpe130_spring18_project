@@ -555,6 +555,7 @@ std::list<CurrencyPair> UndirectedMatrixGraph<T>::getShortestPairsBetween(const 
             // total weight of path from src to v through k is smaller than current value of
             // distances[v]
             if (!shortestPathTreeVisited[v] && adjMatrix[k][v] &&
+                    adjMatrix[k][v] != INF &&
                 distances[k] + adjMatrix[k][v] < distances[v]) {
                 distances[v] = distances[k] + adjMatrix[k][v];
                 parentVertexArray[v] = k;
@@ -611,6 +612,22 @@ std::list<CurrencyPair> UndirectedMatrixGraph<T>::getShortestPairsBetween(const 
     if (symbol1 != "" && symbol2 != "") {
         cost = getWeight(symbol1, symbol2);
         pairs.emplace_back(symbol1, symbol2, cost);
+    }
+
+
+    // check if the current set of pairs results in smaller rate than direct conversion
+    double totalConvertedPrice = 1; // converting 1 coin
+    for (auto& pair: pairs) {
+        totalConvertedPrice *= pair.getPrice();
+    }
+
+    // direct price from exchanging 'from' coin to 'to' coin
+    double directedPrice = getWeight(from, to);
+
+    // if directed price is smaller, return the currency pair directly
+    if (totalConvertedPrice > directedPrice) {
+        pairs = std::list<CurrencyPair>();
+        pairs.emplace_back(from, to, directedPrice);
     }
 
     return pairs;

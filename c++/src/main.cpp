@@ -10,7 +10,7 @@
 #include "GraphManager.h"
 
 
-const std::string kInputFilename = "new.csv";
+const std::string kInputFilename = "updated2.csv";
 
 
 int main()
@@ -36,7 +36,7 @@ int main()
     std::cout << "Printing the graph...\n";
     std::cout << graph->toString();
 
-    manager.findBestExchangeRoute("ZEC", "TIME");
+    manager.findBestExchangeRoute("USD", "BTC");
 
     return 0;
 }
