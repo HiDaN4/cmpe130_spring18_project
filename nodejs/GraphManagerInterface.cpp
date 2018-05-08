@@ -14,7 +14,7 @@ NAN_MODULE_INIT(GraphManagerInterface::Init)
 
     // Link Getters & Methods
     Nan::SetPrototypeMethod(ctor, "getNameOfExchange", getNameOfExchange);
-    Nan::SetPrototypeMethod(ctor, "getLastUpdateTimestamp", getLastUpdateTimestamp);
+    // Nan::SetPrototypeMethod(ctor, "getLastUpdateTimestamp", getLastUpdateTimestamp);
     Nan::SetPrototypeMethod(ctor, "updateGraph", updateGraph);
     Nan::SetPrototypeMethod(ctor, "findBestExchangeRoute", findBestExchangeRoute);
 
@@ -54,9 +54,8 @@ NAN_METHOD(GraphManagerInterface::New)
     info.GetReturnValue().Set(info.Holder());
 }
 
-GraphManagerInterface::GraphManagerInterface(std::string& nameOfExchange)
+GraphManagerInterface::GraphManagerInterface(std::string& nameOfExchange): graphManager(new GraphManager(nameOfExchange, new DirectedMatrixGraph<std::string>(), new CurrencyPairParser()))
 {
-    graphManager = std::make_unique<GraphManager>(nameOfExchange, new DirectedListGraph<std::string>(), new CurrencyPairParser());
 }
 
 // Getters
@@ -75,16 +74,16 @@ NAN_METHOD(GraphManagerInterface::getNameOfExchange)
     info.GetReturnValue().Set(v8Name);
 }
 
-NAN_METHOD(GraphManagerInterface::getLastUpdateTimestamp)
-{
-    // Unwrap the object
-    GraphManagerInterface* self = Nan::ObjectWrap::Unwrap<GraphManagerInterface>(info.This());
+// NAN_METHOD(GraphManagerInterface::getLastUpdateTimestamp)
+// {
+//     // Unwrap the object
+//     GraphManagerInterface* self = Nan::ObjectWrap::Unwrap<GraphManagerInterface>(info.This());
 
-    if (info.Length() > 0)
-        return Nan::ThrowError(Nan::New("'getLastUpdateTimestamp' expects no arguments'").ToLocalChecked());
+//     if (info.Length() > 0)
+//         return Nan::ThrowError(Nan::New("'getLastUpdateTimestamp' expects no arguments'").ToLocalChecked());
 
-    info.GetReturnValue().Set(self->graphManager->getLastUpdateTimestamp());
-}
+//     info.GetReturnValue().Set(self->graphManager->getLastUpdateTimestamp());
+// }
 
 NAN_METHOD(GraphManagerInterface::updateGraph)
 {
@@ -115,5 +114,35 @@ NAN_METHOD(GraphManagerInterface::findBestExchangeRoute)
     if(!info[0]->IsString() || !info[1]->IsString())
         return Nan::ThrowError(Nan::New("'findBestExchangeRoute' expects string parameters").ToLocalChecked());
 
-    info.GetReturnValue().Set(Nan::New("Not implemented yet").ToLocalChecked());
+    // Convert arguments to std::string type
+    v8::String::Utf8Value utf8SrcStr(info[0]->ToString());
+    v8::String::Utf8Value utf8DestStr(info[1]->ToString());
+
+    std::string srcStr = std::string(*utf8SrcStr);
+    std::string destStr = std::string(*utf8DestStr);
+
+    std::cout << "Finding best route.." << std::endl;
+
+    std::list<CurrencyPair> pairs = self->graphManager->findBestExchangeRoute(srcStr, destStr);
+    v8::Local<v8::Array> array = Nan::New<v8::Array>(pairs.size());
+
+
+    
+
+    // Convert pairs list to a string representation
+    std::string pairsString;
+    unsigned i = 0;
+    for (auto it = pairs.cbegin(); it != pairs.cend(); ++it)
+    {
+        std::cout << *it << std::endl;
+        pairsString += it->getFromSymbol() + "," + it->getToSymbol() + "," + std::to_string(it->getPrice());
+
+        // Convert std::string to v8::String type
+        v8::Local<v8::String> v8PairsString = v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), pairsString.c_str());
+
+        // Push string representation onto the array
+        array->Set(i++, v8PairsString);
+    }
+
+    info.GetReturnValue().Set(array);
 }

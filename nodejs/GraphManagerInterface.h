@@ -5,9 +5,11 @@
 #include <nan.h>
 #include <memory>
 #include <string>
+#include <list>
 #include "../c++/include/GraphManager.h"
+#include "../c++/include/CurrencyPair.h"
 #include "../c++/include/CurrencyPairParser.h"
-#include "../c++/include/DirectedListGraph.h"
+#include "../c++/include/DirectedMatrixGraph.h"
 
 class GraphManagerInterface : public Nan::ObjectWrap
 {
@@ -30,7 +32,7 @@ public:
 
     // Getters
     static NAN_METHOD(getNameOfExchange);
-    static NAN_METHOD(getLastUpdateTimestamp);
+    // static NAN_METHOD(getLastUpdateTimestamp);
 
     // Methods
     static NAN_METHOD(updateGraph);
