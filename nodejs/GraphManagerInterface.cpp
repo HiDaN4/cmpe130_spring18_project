@@ -15,6 +15,7 @@ NAN_MODULE_INIT(GraphManagerInterface::Init)
     // Link Getters & Methods
     Nan::SetPrototypeMethod(ctor, "getNameOfExchange", getNameOfExchange);
     // Nan::SetPrototypeMethod(ctor, "getLastUpdateTimestamp", getLastUpdateTimestamp);
+    Nan::SetPrototypeMethod(ctor, "getCostForExchange", getCostForExchange);
     Nan::SetPrototypeMethod(ctor, "updateGraph", updateGraph);
     Nan::SetPrototypeMethod(ctor, "findBestExchangeRoute", findBestExchangeRoute);
 
@@ -72,6 +73,27 @@ NAN_METHOD(GraphManagerInterface::getNameOfExchange)
     v8::Local<v8::String> v8Name = v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), name.c_str());
 
     info.GetReturnValue().Set(v8Name);
+}
+
+NAN_METHOD(GraphManagerInterface::getCostForExchange)
+{
+        // Unwrap the object
+    GraphManagerInterface* self = Nan::ObjectWrap::Unwrap<GraphManagerInterface>(info.This());
+
+    if (info.Length() != 2)
+        return Nan::ThrowError(Nan::New("'getCostForExchange' expects 2 arguments'").ToLocalChecked());
+
+    if (!info[0]->IsString() || !info[1]->IsString())
+        return Nan::ThrowError(Nan::New("'getCostForExchange' expects both arguments to be string types").ToLocalChecked());
+
+    // Convert arguments to std::string type
+    v8::String::Utf8Value utf8SrcStr(info[0]->ToString());
+    v8::String::Utf8Value utf8DestStr(info[1]->ToString());
+
+    std::string srcStr = std::string(*utf8SrcStr);
+    std::string destStr = std::string(*utf8DestStr);
+
+    info.GetReturnValue().Set(self->graphManager->getCostForExchange(srcStr, destStr));
 }
 
 // NAN_METHOD(GraphManagerInterface::getLastUpdateTimestamp)

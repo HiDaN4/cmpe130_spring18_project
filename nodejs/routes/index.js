@@ -54,8 +54,10 @@ router.get('/', function(req, res, next) {
       if (req.query.src == req.query.dest) {
         console.log("Error: Src & Dest cannot be the same");
         res.render('index', { title: 'Kryptos' , hasResult: false, currenciesMap: currenciesMap, tradesArray: tradesArray});
+      } else if (isNaN(req.query.amount)) {
+        console.log("Error: Amount must be a number");
+        res.render('index', { title: 'Kryptos' , hasResult: false, currenciesMap: currenciesMap, tradesArray: tradesArray});
       }
-  
       else {
        if (!currenciesMap.has(req.query.src) || !currenciesMap.has(req.query.dest)) {
          console.log("Src or Dest do not exist");
@@ -71,6 +73,7 @@ router.get('/', function(req, res, next) {
           console.log(tradesArray);
 
           var calculatedSourceAmount = req.query.amount;
+          var directSrcAmount = graphManager.getCostForExchange(req.query.src, req.query.dest) * req.query.amount;
 
           tradesArray.forEach(function(element) {
             let tradePair = element.split(',')
@@ -81,9 +84,12 @@ router.get('/', function(req, res, next) {
             calculatedSourceAmount = calculatedSourceAmount.toFixed(4);
           }
 
-          console.log(calculatedSourceAmount);
+          if (directSrcAmount > 10.0) {
+            directSrcAmount = directSrcAmount.toFixed(4);
+          }
 
-          res.render('index', { title: 'Kryptos' , hasResult: true, currenciesMap: currenciesMap, tradesArray: tradesArray, src: req.query.src, dest: req.query.dest, srcAmount: calculatedSourceAmount ,destAmount: req.query.amount});
+
+          res.render('index', { title: 'Kryptos' , hasResult: true, currenciesMap: currenciesMap, tradesArray: tradesArray, src: req.query.src, dest: req.query.dest, srcAmount: calculatedSourceAmount , destAmount: req.query.amount, directSrcAmount: directSrcAmount});
 
         }).catch(error => console.log(error));
        }

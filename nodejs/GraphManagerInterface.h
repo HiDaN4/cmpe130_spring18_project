@@ -33,6 +33,7 @@ public:
     // Getters
     static NAN_METHOD(getNameOfExchange);
     // static NAN_METHOD(getLastUpdateTimestamp);
+    static NAN_METHOD(getCostForExchange);
 
     // Methods
     static NAN_METHOD(updateGraph);
