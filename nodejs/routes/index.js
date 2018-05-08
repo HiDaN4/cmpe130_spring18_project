@@ -29,10 +29,10 @@ writeNewCurrencyDataToFilePromise = function(filename) {
   });
 }
 
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var tradesMap = new Map();
+  // var tradesMap = new Map();
+  var tradesArray = new Array();
   var hasResult = false;
 
   var currenciesPromise = getCurrenciesMapPromise();
@@ -53,30 +53,30 @@ router.get('/', function(req, res, next) {
     if (req.query.src && req.query.dest) {
       if (req.query.src == req.query.dest) {
         console.log("Error: Src & Dest cannot be the same");
-        res.render('index', { title: 'Kryptos' , hasResult: false, currenciesMap: currenciesMap, tradesMap: tradesMap});
+        res.render('index', { title: 'Kryptos' , hasResult: false, currenciesMap: currenciesMap, tradesArray: tradesArray});
       }
   
       else {
        if (!currenciesMap.has(req.query.src) || !currenciesMap.has(req.query.dest)) {
          console.log("Src or Dest do not exist");
-         res.render('index', { title: 'Kryptos' , hasResult: false, currenciesMap: currenciesMap, tradesMap: tradesMap});
+         res.render('index', { title: 'Kryptos' , hasResult: false, currenciesMap: currenciesMap, tradesArray: tradesArray});
        }
        else {
-        const currentTimeString = new Date().toLocaleTimeString();
-        const filename = `currency_data-${currentTimeString}.csv`
+        const filename = `currency_data-${Date.now()}.csv`
         var writeDataPromise = writeNewCurrencyDataToFilePromise(filename);
   
         writeDataPromise.then(function() {
-          let result = graphManager.findBestExchangeRoute(req.query.src, req.query.dest);
-          console.log(result);
+          graphManager.updateGraph(filename);
+          tradesArray = graphManager.findBestExchangeRoute(req.query.src, req.query.dest);
+          console.log(tradesArray);
 
-          res.render('index', { title: 'Kryptos' , hasResult: true, currenciesMap: currenciesMap, tradesMap: tradesMap});
+          res.render('index', { title: 'Kryptos' , hasResult: true, currenciesMap: currenciesMap, tradesArray: tradesArray});
 
         }).catch(error => console.log(error));
        }
       }
     } else {
-      res.render('index', { title: 'Kryptos' , hasResult: false, currenciesMap: currenciesMap, tradesMap: tradesMap});
+      res.render('index', { title: 'Kryptos' , hasResult: false, currenciesMap: currenciesMap, tradesArray: tradesArray});
     }
 
   }).catch(error => console.log(error));
