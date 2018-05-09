@@ -1,7 +1,3 @@
-////
-//// Created by Mian Hashim Shah on 4/4/18.
-////
-
 #include "UndirectedMatrixGraph.h"
 #include <iomanip> // setprecision
 #include <sstream> // stringstream

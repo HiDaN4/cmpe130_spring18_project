@@ -29,11 +29,14 @@ public:
     }
 
     //getters
+
+    //return ID of vertex
     int getID()
     {
         return vertexID;
     }
 
+    //return value of vertex
     T getValue() const
     {
         return value;

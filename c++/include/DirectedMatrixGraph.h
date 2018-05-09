@@ -6,7 +6,6 @@
 #include "UndirectedMatrixGraph.h"
 #include <vector>
 
-//src/DirectedMatrixGraph.cpp
 template <class T>
 class DirectedMatrixGraph: public UndirectedMatrixGraph<T>
 {

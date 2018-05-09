@@ -1,5 +1,5 @@
 //
-// Created by Mian Hashim Shah on 4/4/18.
+// UndirectedMatrixGraph inherits from Graph class
 //
 
 #ifndef CMPE130PROJECT_UNDIRECTEDMATRIXGRAPH_H

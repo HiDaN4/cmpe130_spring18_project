@@ -1,6 +1,4 @@
-//
-//implementation of the DirectedMatrixGraph.h
-//
+
 #include "DirectedMatrixGraph.h"
 
 //constructor
