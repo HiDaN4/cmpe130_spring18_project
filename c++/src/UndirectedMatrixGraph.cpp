@@ -84,7 +84,7 @@ void UndirectedMatrixGraph<T>::addEdge(const T& fromValue, const T& toValue, dou
     int fromIndex = lookUpVertex(fromValue);
     int toIndex = lookUpVertex(toValue);
 
-    if (fromIndex != -1 && toIndex != -1)
+    if (fromIndex != -1 && toIndex != -1) //if indices are valid
     {
         //if they exist, then add it
         adjMatrix[fromIndex][toIndex] = adjMatrix[toIndex][fromIndex] = cost; // add edge between vertices
@@ -129,15 +129,15 @@ template<class T>
 int UndirectedMatrixGraph<T>::lookUpVertex(const T& value)
 {
 
-    for (int i = 0; i < this->getNumberOfVertices(); i++)
+    for (int i = 0; i < this->getNumberOfVertices(); i++) //loop to the end of array
     {
-        if (vertexList[i].getValue() == value)
-        {
-            return i;
+        if (vertexList[i].getValue() == value) //check to see if each vertex has the same value as the passed value
+        {                                       //if it does, return its index
+            return i; //return the index of at which the vertex is stored in vector
         }
     }
-    cout << "Vertex not found!" << endl;
-    return -1;
+    cout << __FUNCTION__ <<"Vertex not found!" << endl;
+    return -1; //return -1 if no vertex is found
 }
 
 //This function returns the weight between two vertices.
@@ -178,7 +178,10 @@ vector<Vertex<T>> UndirectedMatrixGraph<T>::getNeighbors(const T &targetCoin)
     return std::move(listOfNeighbors);//return list of neighbors
 }
 
-
+/*toString method displays the adjacency matrix graph to the console with the indices showing the
+ * weights between corresponding vertices.
+ * Returns a string to be displayed.
+ * */
 template<class T>
 string UndirectedMatrixGraph<T>::toString()
 {
@@ -204,13 +207,15 @@ string UndirectedMatrixGraph<T>::toString()
     int i = 0; // counter of vertex list
     string line; // hold data for each line
 
-    for (auto it = adjMatrix.begin(); it != adjMatrix.end(); ++it) {
+    for (auto it = adjMatrix.begin(); it != adjMatrix.end(); ++it)
+    {
         line += vertexList.at(i++).getValue(); // get the symbol
         line += string(spacing - (line.length() - baseSymbolLength), ' '); // calculate the spacing based on the symbol length
-        for (auto column = it->begin(); column != it->end(); ++column) {
+        for (auto column = it->begin(); column != it->end(); ++column)
+        {//use iterator to loop through the columns
             buffer.str(string());
             buffer << fixed << setprecision(2) << *column << spaces; // get value of double with precision of 2
-            line += buffer.str();
+            line += buffer.str(); //add buffer to the line
         }
         str += line + "\n\n";
         line = "";

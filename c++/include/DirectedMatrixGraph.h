@@ -17,6 +17,8 @@ private:
     using Graph<T>::totalNumberOfVertices;
 public:
     DirectedMatrixGraph();
+
+
     //This function adds a vertices to our vertex List
     // @param: Vertex * addThisVertex
 

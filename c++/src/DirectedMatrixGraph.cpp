@@ -62,26 +62,26 @@ void DirectedMatrixGraph<T>::removeEdge(const T &fromValue, const T &toValue)
 template<class T>
 int DirectedMatrixGraph<T>::lookUpVertex(const T &value)
 {
-    return UndirectedMatrixGraph<T>::lookUpVertex(value);
+    return UndirectedMatrixGraph<T>::lookUpVertex(value);//simply execute the function in parent class
 }
 
 //returns weight of between two vertices
 template <class T>
 double DirectedMatrixGraph<T>::getWeight(const T &fromValue, const T &toValue)
 {
-    return UndirectedMatrixGraph<T>::getWeight(fromValue, toValue);
+    return UndirectedMatrixGraph<T>::getWeight(fromValue, toValue);//simply execute the function in parent class
 }
 
 //return neighbors of a specific currency
 template <class T>
 vector<Vertex<T>> DirectedMatrixGraph<T>::getNeighbors(const T &targetCoin)
 {
-    return UndirectedMatrixGraph<T>::getNeighbors(targetCoin);
+    return UndirectedMatrixGraph<T>::getNeighbors(targetCoin);//simply execute the function in parent class
 }
 
 //display function
 template<class T>
 string DirectedMatrixGraph<T>::toString()
 {
-    return UndirectedMatrixGraph<T>::toString();
+    return UndirectedMatrixGraph<T>::toString(); //simply execute the function in parent class
 }
