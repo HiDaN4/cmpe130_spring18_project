@@ -27,7 +27,7 @@ Building the C++ project source code into a Node.js interface module requires mu
 To build the module, simply run the following command: `bash build.sh`
 
 The following list describes the separate steps necessary to manually build the interface module:
-1. Run make in `c++` directory
+1. Run `make` in `c++` directory
 2. Run `npm run compile` in `nodejs` directory
 3. Move built Node.js module from `nodejs/build/Release/module.node` to `nodejs/lib/module.node`
 
