@@ -21,6 +21,10 @@ Class diagram for Graph class:
 
 Diagrams can be found on [LucidChart](https://www.lucidchart.com/invitations/accept/923e3f12-93bf-4315-af38-f11a078edaf6)
 
+## Requirements to Build and Run the Project
+- Latest version of Node.js
+- C++ compiler with c++11 support
+
 ## Building
 ### Automatic Build Script
 Building the C++ project source code into a Node.js interface module requires multiple steps. This build procedure is simplified by running the build script in the project's parent directory: `build.sh`
@@ -51,6 +55,13 @@ The package `gyp` requires Python versions: `v2.5.0 <= Python Version < v3.0.0`,
 `npm run compile --python=<python>`
 
 *Where:* `<python>` is the python executable; i.e `python2.7`
+
+## Running
+To start the Node.js server, navigate to the `nodejs` directory and run the following command: 
+
+`npm start`
+
+_See 'Building' to build the project before starting the server_
 
 ## Authors
 * Antonio Bares
