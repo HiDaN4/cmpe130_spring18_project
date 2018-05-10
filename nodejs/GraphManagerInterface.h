@@ -2,6 +2,9 @@
 // GraphManagerInterface Class Specification
 // Author: Antonio G. Bares Jr
 
+#ifndef KRYPTOS_GRAPHMANAGERINTERFACE_H
+#define KRYPTOS_GRAPHMANAGERINTERFACE_H
+
 #include <nan.h>
 #include <memory>
 #include <string>
@@ -39,3 +42,5 @@ public:
     static NAN_METHOD(updateGraph);
     static NAN_METHOD(findBestExchangeRoute);
 };
+
+#endif  // KRYPTOS_GRAPHMANAGERINTERFACE_H

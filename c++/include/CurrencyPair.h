@@ -2,8 +2,8 @@
 // CurrencyPair Class Specification
 // Author: Antonio G. Bares Jr.
 
-#ifndef CURRENCYPAIR_H
-#define CURRENCYPAIR_H
+#ifndef KRYPTOS_CURRENCYPAIR_H
+#define KRYPTOS_CURRENCYPAIR_H
 
 #include <string>
 #include <iostream>
@@ -29,4 +29,4 @@ public:
 };
 
 
-#endif
+#endif  // KRYPTOS_CURRENCYPAIR_H

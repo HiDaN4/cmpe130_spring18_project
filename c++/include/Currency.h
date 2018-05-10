@@ -2,8 +2,8 @@
 // Currency Class Specification
 // Author: Antonio G. Bares Jr.
 
-#ifndef CURRENCY_H
-#define CURRENCY_H
+#ifndef KRYPTOS_CURRENCY_H
+#define KRYPTOS_CURRENCY_H
 
 #include <string>
 #include <ostream>
@@ -26,4 +26,4 @@ public:
     friend std::ostream& operator<< (std::ostream&, const Currency&);
 };
 
-#endif
+#endif  // KRYPTOS_CURRENCY_H
