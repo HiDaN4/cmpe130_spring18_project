@@ -21,29 +21,47 @@ Class diagram for Graph class:
 
 Diagrams can be found on [LucidChart](https://www.lucidchart.com/invitations/accept/923e3f12-93bf-4315-af38-f11a078edaf6)
 
+## Requirements to Build and Run the Project
+- Latest version of Node.js
+- C++ compiler with c++11 support
+
 ## Building
 ### Automatic Build Script
 Building the C++ project source code into a Node.js interface module requires multiple steps. This build procedure is simplified by running the build script in the project's parent directory: `build.sh`
 To build the module, simply run the following command: `bash build.sh`
 
 The following list describes the separate steps necessary to manually build the interface module:
-1. Run make in `c++` directory
+1. Run `make clean || make` in `c++` directory
 2. Run `npm run compile` in `nodejs` directory
 3. Move built Node.js module from `nodejs/build/Release/module.node` to `nodejs/lib/module.node`
 
+_See below for detailed information for each step and related issues_
+
+### C++
+
+The Node.js module requires to be linked against a static library of the project's c++ code. In order to create this static library, navigate to the `c++` directory and run `make clean || make`. This will build the project's static library into its required location: `nodejs/lib/libproject.a`
+
 ### Node.js
 
-The Node.js backend interfaces with the C++ code through a module, `interface`. The `interface` module contains useful and relevant functions that call functions from the C++ code. To build this module simply navigate to the `nodejs` directory in your terminal and run the following command: 
+The Node.js backend interfaces with the C++ code through a module, `GraphManagerModule`. The `GraphManagerModule` contains the `GraphManagerInterface` which provides an interface between the Node.js backend and the C++ project code. To build this module simply navigate to the `nodejs` directory in your terminal and run the following command: 
 
 `npm run compile`
+The module will be built in the `nodejs/build/Release` directory with the filename: `module.node`. This file must be moved to the `nodejs/lib` directory before starting the Node.js server.
 
-#### Issues
+#### Known Issues
 
 The package `gyp` requires Python versions: `v2.5.0 <= Python Version < v3.0.0`, so running the previous command may not work if you have multiple versions of python installed, i.e. `python3` and `python2.7`. Specify an alternative python version to use that fits the version requirement in the following build command: 
 
 `npm run compile --python=<python>`
 
 *Where:* `<python>` is the python executable; i.e `python2.7`
+
+## Running
+To start the Node.js server, navigate to the `nodejs` directory and run the following command: 
+
+`npm start`
+
+_See 'Building' to build the project before starting the server_
 
 ## Authors
 * Antonio Bares
